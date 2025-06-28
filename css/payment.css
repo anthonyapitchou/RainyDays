@@ -1,0 +1,362 @@
+:root {
+    --font-primary: "Boots And Spurs", "Segoe UI", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --color-primary:#1b1b1b;
+  --color-secondary: #fcfcfc; 
+  --color-button-bg: #fcfcfc;
+  --border-radius: 0.3em;
+ --width:100%;
+  --max-width: 1920px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Boots+And+Spurs&display=swap');
+
+html {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+    box-sizing: border-box;
+}
+
+
+header{
+max-width: 1780px;
+height: 80px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap:50px;
+padding: 0 20px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.nav-left ul {
+display: flex;
+align-items: center;
+gap: 20px;
+list-style: none;
+margin: 0;
+padding: 0;
+height: 100%;
+}
+
+
+.cta-button {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-left a {
+text-decoration: none;
+color: #333;
+font-weight: bold;
+
+}
+
+
+
+.logo img {
+width: 200px;
+height: 80px;
+display:flex;
+align-items: center;
+margin: auto;
+transition: transform 0.3s ease, filter 0.3s ease;
+cursor: pointer;
+}
+
+
+
+.nav-right ul{
+display: flex;
+align-items: center;
+gap: 20px;
+list-style: none;
+margin: 0;
+padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+.nav-right li {
+  margin: 0;
+   text-decoration: none;
+  color: #1b1b1b;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+}
+
+.nav-left li a:hover {
+  color: #0056b3; 
+  text-decoration: underline;
+}
+
+.nav-right a{
+  text-decoration: none;
+color: #333;
+font-weight: bold;
+}
+
+
+.nav-right li a:hover {
+  color: #0056b3; 
+  text-decoration: underline;
+}
+
+
+.search-input {
+padding: 8px 12px;
+ border-radius: 20px;
+ border: 1px solid #ccc;
+
+}
+
+.search-input:hover{
+color: #ffffff;
+  border-color: green;
+
+}
+
+.profile-img {
+width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ object-fit: cover;
+}
+
+
+.about-link {
+ text-decoration: none;
+ color: #333;
+font-weight: bold;
+}
+
+.heart-icon {
+ font-size: 20px;
+ cursor: pointer;
+}
+
+.regroup{
+ display:flex;
+  justify-content: flex-end;
+align-items: center;
+  gap: 20px;                  
+  padding: 10px;  
+}
+
+
+
+.scroll-wrapper{
+    padding-top: 20px;
+    font-size: 20px;      
+    cursor: pointer;      
+    transition: color 0.3s ease, transform 0.3s ease; 
+    user-select: none;  
+}
+
+.scroll-arrow:hover {
+  color: #007BFF;           
+    transform: translateY(-2px);  
+}
+
+
+
+
+
+
+.container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 50px 30px;
+background: #11040420;
+
+ display: flex;
+ flex-direction: column;        /* Optional if row is fine */
+  justify-content: center;    /* Center items horizontally */
+  align-items: center;        /* Center items vertically */
+  gap: 10px;                  
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+.heading {
+
+ font-size: 24px;
+  max-width: 500px;
+  margin: auto;
+text-align: center;
+
+}
+
+
+.last-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.but{
+    padding-bottom: 20px;
+}
+
+
+.confirm-btn {
+  background-color: #28a745;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  height: 40px;
+  
+}
+
+.confirm-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.confirm-btn:active {
+  background-color: #1e7e34;
+  transform: scale(0.95);
+}
+
+.cta{
+    
+ display: inline-block;
+  background-color: #fcfcfc;
+  width: 150px;
+  height: 40px;
+  color:  black;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+  }
+
+.cta:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+  color: white;
+}
+
+.cta:active {
+  background-color: #1e7e34;
+  transform: scale(0.95);
+}
+
+.confirm-cta:active {
+  background-color: #1e7e34;
+  transform: scale(0.95);
+}
+
+
+@media (max-width: 900px) {
+  /* Container stack and center content */
+  .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px;
+    padding: 15px;
+    text-align: center;
+  }
+
+  /* Payment section heading and paragraph */
+  .Payment h2 {
+    font-size: 1.8rem;
+  }
+  .Payment p {
+    font-size: 1.1rem;
+  }
+
+  /* Last info: stack vertically with spacing */
+  .last-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px;
+    font-size: 1.1rem;
+  }
+  .last-info p {
+    margin: 0;
+  }
+
+  /* Buttons stack and full width */
+  .but, .Back {
+    width: 100%;
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 10px;
+  }
+
+  .confirm-btn, .cta {
+    width: 90%;
+    max-width: 300px;
+    padding: 12px 0;
+    font-size: 1.1rem;
+  }
+
+  /* Header layout (like your previous nav) */
+  header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  nav.nav-left ul, nav.nav-right ul {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+  }
+  nav.nav-left ul li, nav.nav-right ul li {
+    margin: 0;
+  }
+
+  .logo {
+    width: 100%;
+    text-align: center;
+  }
+  .logo img {
+    max-width: 180px;
+    height: auto;
+  }
+
+  .regroup {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .search-input {
+    width: 90%;
+    max-width: 300px;
+  }
+  .profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+}
