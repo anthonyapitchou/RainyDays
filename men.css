@@ -485,8 +485,8 @@ justify-content: flex-end;
 
   /* Regroup section (search, profile, heart, nav-right) stacked */
   .regroup {
-    display: flex !important;
-    flex-direction: column !important;
+    display: flex ;
+    flex-direction: row ;
     align-items: center;
     gap: 10px;
     width: 100%;
@@ -537,6 +537,7 @@ justify-content: flex-end;
   .container {
     display: flex !important;
     flex-direction: column !important;
+    align-items: center;
     gap: 25px;
     margin: 20px 10px;
   }
