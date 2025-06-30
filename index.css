@@ -224,14 +224,6 @@ color: #ffffff;
   margin: 5px;
 }
 
-.visually-hidden {
-  position: absolute;    
-  left: -10000px;       
-  top: auto;            
-  width: 1px;            
-  height: 1px;           
-  overflow: hidden;     
-}
 
 .cta{
 background-color: var(--color-button-bg);
@@ -426,6 +418,14 @@ transition: background-color 0.2s ease, transform 0.2s ease;
   transform: scaleX(1);
 }
 
+.visually-hidden {
+  position: absolute;   
+  left: -10000px;        
+  top: auto;             
+  width: 1px;           
+  height: 1px;           
+  overflow: hidden;      
+}
 
 .container-pictures{
   display: flex;
@@ -536,6 +536,7 @@ color: #ffffff;
   gap: 10px;
   color: #fcfcfc;
   text-align: center;
+font-weight: bold;
 }
 
 .support{
@@ -660,7 +661,7 @@ justify-content: flex-end;
   }
 
   .regroup {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
     margin: 10px 0;
