@@ -452,29 +452,127 @@ justify-content: flex-end;
 
 
 
-@media (max-width: 768px) {
-  nav.nav-left ul, nav.nav-right ul {
-    flex-direction: column;
-  }
+/* Responsive layout: stack rows to columns on small screens */
+@media (max-width: 900px) {
 
-  .logo img {
-    width: 150px;
-  }
-
-  .search-input {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .card {
-    width: 100%;
-    margin-bottom: 20px;
+  /* Header: stack nav-left, logo, and regroup vertically */
+  header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
   }
 }
 
- .bottom {
-    display: flex;
-    flex-direction: row ;
-    align-items: center ;
-    padding: 20px 10px ;
+  /* Left navigation menu: vertical list centered */
+  nav.nav-left ul {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+  }
+  nav.nav-left ul li {
+    margin: 0;
+  }
+
+  /* Logo centered and resized */
+  .logo {
+    width: 100%;
+    text-align: center;
+  }
+  .logo img {
+    max-width: 180px;
+    height: auto;
+  }
+
+  /* Regroup section (search, profile, heart, nav-right) stacked */
+  .regroup {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .search-input {
+    width: 90%;
+    max-width: 300px;
+  }
+  .profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  nav.nav-right ul {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+  }
+  nav.nav-right ul li {
+    margin: 0;
+  }
+
+  /* Breadcrumb center aligned */
+  .breadcrumb {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 0.9rem;
+  }
+
+    /* Cards container stack vertically */
+  .container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 25px;
+    margin: 20px 10px;
+  }
+  .card {
+    width: 100% !important;
+  }
+  .card img {
+    width: 100% !important;
+    height: auto !important;
+  }
+footer .social-media,
+  footer .footer-bar .info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px;
+  }
+
+  .bottom{
+     display: flex ;
+    flex-direction: row; 
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+  }
+  footer .bottom > div,
+  footer .footer-bar .info > div {
+    margin: 10px 0 !important;
+  }
+
+  /* Social media icons smaller and centered */
+  .logo-media img.media {
+    width: 40px !important;
+    margin: 0 8px !important;
+  }
+
+  /* Language section centered */
+  .language {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 5px !important;
+  }
+  .language img {
+    width: 30px !important;
   }
