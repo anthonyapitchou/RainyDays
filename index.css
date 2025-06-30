@@ -224,6 +224,15 @@ color: #ffffff;
   margin: 5px;
 }
 
+.visually-hidden {
+  position: absolute;    
+  left: -10000px;       
+  top: auto;            
+  width: 1px;            
+  height: 1px;           
+  overflow: hidden;     
+}
+
 .cta{
 background-color: var(--color-button-bg);
 color: #1b1b1b;
