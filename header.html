@@ -1,0 +1,70 @@
+<!-- header.html -->
+<header>
+  <nav class="nav-left">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="men.html">Men</a></li>
+      <li><a href="women.html">Women</a></li>
+    </ul>
+  </nav>
+
+  <div class="logo">
+    <img src="picture/rainyDays_logo.png" alt="Rainy Days logo" />
+  </div>
+
+  <div class="regroup">
+    <div class="search-filter-wrapper" style="position: relative;">
+      <input id="search-input" type="text" placeholder="Search..." class="search-input" />
+
+
+      <!-- FILTER POPUP (dropdown, anchored) -->
+      <div id="filter-popup" class="filter-popup-overlay" aria-hidden="true">
+        <div class="filter-popup">
+          <div class="filter-popup-header">
+            <h3>Filter by category</h3>
+            <button class="filter-close-btn" aria-label="Close filter">&times;</button>
+          </div>
+          <div class="filter-popup-content">
+              <nav class="nav">
+    <ul>
+      <li><a href="men.html">Men Jacket</a></li>
+      <li><a href="women.html">Women Jacket</a></li>
+    </ul>
+  </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <img src="picture/profile.jpg" alt="profile image" class="profile-img" />
+
+    <nav class="nav-right">
+      <ul>
+        <li><a href="aboutus.html">About us</a></li>
+        <li>
+          <button class="basket-btn" id="basketBtn" aria-label="Open basket" title="Basket">
+            <!-- SVG icon -->
+            <svg class="basket-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 9 18h8v-2H9.42l.75-1.36L20 6H8.42L7 4zm0 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" fill="currentColor"/>
+            </svg>
+            <span class="basket-count" id="basketCount" aria-hidden="true">0</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- BASKET POPUP (right side panel) -->
+<div id="basketPopup" class="basket-popup-overlay" aria-hidden="true">
+  <div class="basket-popup">
+    <div class="basket-popup-header">
+      <h3>My basket</h3>
+      <button class="basket-close-btn" aria-label="Close basket">&times;</button>
+    </div>
+    <div class="basket-popup-content" id="basketPopupContent">
+      <p class="empty-basket-message">Your basket is empty.</p>
+    </div>
+    <div class="basket-popup-footer" id="basketPopupFooter"></div>
+  </div>
+</div>
