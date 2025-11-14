@@ -1,3 +1,5 @@
+const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
+
 // js/men.js
 // Fetch men products (replace API_URL with your real endpoint) and render into .grid-container
 (function () {
