@@ -18,8 +18,6 @@ html {
 }
 
 
-
-
 body {
    color: var(--color-primary);
   background-color: var(--color-secondary);
@@ -33,6 +31,7 @@ body {
 }
 
 
+/* Header */
 header{
 max-width: 1780px;
 height: 80px;
@@ -46,74 +45,72 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
-
 .nav-left ul {
-display: flex;
-align-items: center;
-gap: 20px;
-list-style: none;
-margin: 0;
-padding: 0;
-height: 100%;
-}
-
-
-.cta-button {
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex; 
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 .nav-left a {
-text-decoration: none;
-color: #333;
-font-weight: bold;
-
+  text-decoration: none;
+  color: #333;
 }
 
-
-
+/* Logo */
 .logo img {
-width: 200px;
-height: 80px;
-display:flex;
-align-items: center;
-margin: auto;
-transition: transform 0.3s ease, filter 0.3s ease;
-cursor: pointer;
+  width: 200px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+
+.regroup {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
 }
 
 
 
-.nav-right ul{
-display: flex;
-align-items: center;
-gap: 20px;
-list-style: none;
-margin: 0;
-padding: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
+.nav-right ul {
+  display: flex; 
+  align-items: center;
+  gap: 20px;
+  list-style: none; 
+  margin: 0;
+  padding: 0;
 }
 
 .nav-right li {
+  list-style: none;
   margin: 0;
-   text-decoration: none;
-  color: #1b1b1b;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  
 }
 
-.nav-left li a:hover {
+.nav-right a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+
+.nav-left li a:hover, .nav-right li a:hover {
   color: #0056b3; 
   text-decoration: underline;
 }
 
-.nav-right a{
-  text-decoration: none;
-color: #333;
-}
+
+
+/* The rest of your CSS */
+
 
 
 .nav-right li a:hover {
@@ -149,21 +146,12 @@ width: 40px;
 font-weight: bold;
 }
 
-.heart-icon {
- font-size: 20px;
- cursor: pointer;
-}
-
-.regroup{
- display:flex;
-  justify-content: flex-end;
-align-items: center;
-  gap: 20px;                  
-  padding: 10px;  
-}
 
 
 
+
+/*new content*/
+/*other content*/
 .scroll-wrapper{
     padding-top: 20px;
     font-size: 20px;      
@@ -241,6 +229,7 @@ button:hover {
   color: white;
   transform: translateY(-2px);
 }
+
 .dropdown-btn {
   position: relative;
   display: inline-block;
@@ -264,7 +253,7 @@ button:hover {
 }
 
 
-
+/*new container */
 .container {
  display: flex;
  justify-content: center;
@@ -335,7 +324,7 @@ text-align: left;
 margin: 5px 0;
 }
 
-
+/*footer*/
 .bottom{
   background-color: #657C6A;
   max-width: 100%;
@@ -450,6 +439,146 @@ justify-content: flex-end;
 }
 
 
+/* Footer - bottom bar */
+.footer-bar {
+  background: transparent;
+  padding: 20px 0 0;
+}
+
+.footer-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: justify;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Left side: logo + legal links */
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.logo-bottom img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+/* Legal links as inline list */
+.legal-links ul {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-items: center;
+}
+
+.legal-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+.legal-links a:hover { text-decoration: underline; }
+
+/* FOOTER BAR */
+.footer-bar {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  background-color: #fcfcfc;
+}
+
+.footer-bar-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between; /* separates left and right */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* LEFT SIDE */
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  height: 45px;
+  width: auto;
+}
+
+.legal-links ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legal-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.legal-links a:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* RIGHT SIDE */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.language {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lang-btn[aria-pressed="true"] {
+  background: #1b1b1b;
+  color: #fff;
+  border-color: #1b1b1b;
+}
+
+.flag {
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.copyright {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+
 
 /* Responsive layout: stack rows to columns on small screens */
 @media (max-width: 900px) {
@@ -487,91 +616,3 @@ justify-content: flex-end;
     height: auto;
   }
 
-  /* Regroup section (search, profile, heart, nav-right) stacked */
-  .regroup {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-  }
-  .search-input {
-    width: 90%;
-    max-width: 300px;
-  }
-  .profile-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-  }
-  nav.nav-right ul {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center;
-    gap: 10px;
-    padding: 0;
-    margin: 0;
-  }
-  nav.nav-right ul li {
-    margin: 0;
-  }
-
-  /* Breadcrumb center aligned */
-  .breadcrumb {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 0.9rem;
-  }
-
-    /* Cards container stack vertically */
-  .container {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center;
-    gap: 25px;
-    margin: 20px 10px;
-  }
-  .card {
-    width: 100% !important;
-  }
-  .card img {
-    width: 100% !important;
-    height: auto !important;
-  }
-footer .social-media,
-  footer .footer-bar .info {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 15px;
-  }
-
-  .bottom{
-     display: flex ;
-    flex-direction: row; 
-    align-items: center;
-    text-align: center;
-    gap: 15px;
-  }
-  footer .bottom > div,
-  footer .footer-bar .info > div {
-    margin: 10px 0 !important;
-  }
-
-  /* Social media icons smaller and centered */
-  .logo-media img.media {
-    width: 40px !important;
-    margin: 0 8px !important;
-  }
-
-  /* Language section centered */
-  .language {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 5px !important;
-  }
-  .language img {
-    width: 30px !important;
-  }
