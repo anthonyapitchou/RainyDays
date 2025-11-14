@@ -1,0 +1,228 @@
+/* FILTER: dropdown anchored inside .search-filter-wrapper */
+.filter-popup-overlay {
+  position: absolute;          /* anchored to wrapper */
+  top: calc(100% + 8px);       /* just under the input */
+  right: 0;
+  width: 280px;
+  max-width: calc(100vw - 40px);
+  background: transparent;     /* overlay container transparent */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  z-index: 1200;
+}
+
+.filter-popup-overlay.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.filter-popup {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+/* header inside popup */
+.filter-popup-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid #eee;
+}
+.filter-popup-content { padding: 8px 10px; }
+.filter-popup-content ul { list-style:none; margin:0; padding:0; }
+.filter-popup-content li a { display:block; padding:8px 6px; text-decoration:none; color:inherit; }
+.filter-popup-content li a:hover { background:#f4f4f4; }
+
+
+
+
+/* BASKET: right-side full-height panel (unchanged behavior) */
+.basket-popup-overlay {
+  position: fixed;
+  top: 0; right: 0; width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  visibility: hidden; opacity: 0;
+  transition: opacity .25s ease, visibility .25s;
+  z-index: 1300;
+}
+.basket-popup-overlay.show { visibility: visible; opacity: 1; }
+.basket-popup {
+  height: 100%;
+  width: 360px;
+  max-width: 90%;
+  background: #fff;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.12);
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  display:flex; flex-direction:column;
+}
+.basket-popup-overlay.show .basket-popup { transform: translateX(0); }
+
+/* small UI */
+.basket-popup-header { padding:12px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; }
+.basket-popup-content { padding:12px; overflow:auto; flex:1; }
+.basket-popup-footer { padding:12px; border-top:1px solid #eee; text-align:center; }
+
+/* Basket item layout */
+.basket-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;              /* space between image and text */
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* Basket image smaller and rounded */
+.basket-item-image {
+  width: 60px;            /* adjust size here */
+  height: 60px;           /* keep square for consistency */
+  object-fit: cover;      /* keeps the image from stretching */
+  border-radius: 6px;     /* soft corners */
+}
+
+/* Product info next to image */
+.basket-item-info {
+  flex: 1;                /* takes remaining space */
+}
+
+.basket-item-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.basket-item-price {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 4px 0 0 0;
+}
+
+/* Remove button */
+.basket-remove-btn {
+  background: none;
+  border: none;
+  color: #151515;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.basket-remove-btn:hover {
+  color: #333;
+}
+
+.basket-btn {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+.basket-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.06);
+}
+
+.basket-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+/* Badge / count */
+
+.basket-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+.basket-popup-overlay {
+  position: fixed; 
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: flex-end; 
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+/*  popup */
+.basket-popup-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.basket-popup {
+  background-color: white;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 400px; 
+  height: 100%; 
+  transform: translateX(100%); 
+  transition: transform 0.3s ease-in-out;
+}
+
+/* slide the popup */
+.basket-popup-overlay.show .basket-popup {
+  transform: translateX(0); 
+}
+
+.basket-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+/* title of basket  */
+.basket-popup-header h3 {
+  margin: 0;
+}
+
+/* closing Bouton  */
+.basket-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+/* contain  of basket */
+.basket-popup-content {
+  padding: 20px;
+  min-height: 80px;
+}
+
+/* Message for "empty basket" */
+.empty-basket-message {
+  text-align: center;
+  color: #888;
+}
+
+.basket-popup-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
