@@ -5,37 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Rainy Day</title>
-    <link href="hydroflex.css" rel="stylesheet" />
+      <link href="filter.css" rel="stylesheet" />
+    <link href="HydroFlex.css" rel="stylesheet" />
 </head>
 <body>
- <header>
-    <nav class="nav-left">
-    <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="men.html">Men</a></li>
-<li><a href="women.html">Women</a></li>
-</ul>
-</nav>
 
-<div class="logo">
-          <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo">
-</div>
-    
-<div class="regroup">
-
-<input type="text" placeholder="Search..." class="search-input">
-   <img src="picture/profile.jpg" alt="profile-img" class="profile-img" >
-
-<span>❤️</span>
-
-<nav class="nav-right">
-  
-<ul>  
-  <li><a href="aboutus.html">About us</a></li>
-</ul>
-</nav>
-</div>
-</header>
+  <div id="header-container"></div>
 
 <main>
 
@@ -50,7 +25,7 @@
   <section class="breadcrumb">
   <a href="index.html">Home</a> /
   <a href="men.html" class="current">Men</a> /
-  <a href="women.html">Women</a> 
+  <a href="Women.html">Women</a> 
 
 </section>
 
@@ -88,7 +63,12 @@
       <button>XL</button>
   </div>
   <div class="button">
-  <a href="payment.html" class="cta"><strong>Add</strong></a>
+     <a href="#" class="cta add-to-cart"
+  data-name="HydroFlex -  Men"
+  data-price="180$"
+  data-image="picture/RainyDays_Jacket2.png">
+  <strong>Add to basket</strong>
+</a>
 </div>
 <div class="description">
   <p>Perfect rain jacket for sport and nature. </p>
@@ -114,7 +94,7 @@
 <h3>StormShield</h3>
 <p>Double protection - Rain Jacket - Grey & Red</p>
 <p>220$</p>
-  <a href="stormshield.html" class="cta"><strong> view</strong></a>
+  <a href="stormShield.html" class="cta"><strong> view</strong></a>
 </div>
 </div>
 
@@ -125,7 +105,7 @@
 <h3>AquaGuard</h3>
 <p>Zip - thin Rain Jacket - Grey & Red</p>
 <p>180$</p>
-  <a href="aquaguard.html" class="cta"><strong> view</strong></a>
+  <a href="AquaGuard.html" class="cta"><strong> view</strong></a>
 </div>
 </div>
 
@@ -135,14 +115,15 @@
 <h3>DrizzleBlock</h3>
 <p>Double protection - Strong Rain Jacket - Black & White</p>
 <p>220$</p>
-  <a href="drizzleblock.html" class="cta"><strong> view</strong></a>
+  <a href="DrizzleBlock.html" class="cta"><strong> view</strong></a>
 </div>
 </div>
+
+
 </main>
 
 
 <footer>  
-  <footer>  
   <section class="bottom">
     <div class="shop">
       <h3>Shop</h3>
@@ -180,27 +161,36 @@
  </div>
 </section>
 
+<section class="footer-bar">
+  <div class="footer-bar-inner">
+    <div class="footer-legal">
+      <div class="logo-bottom">
+        <img src="picture/rainydays_logo.png" alt="Rainy Days logo">
+      </div>
 
-<section>
-  <div class="footer-bar">
-<div class="info">
+      <nav class="legal-links" aria-label="Legal links">
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Terms and Conditions of Sale</a></li>
+        </ul>
+      </nav>
+    </div>
 
-  <div class="logo-botton">
-          <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo">
+    <div class="footer-right">
+      <div class="language" aria-label="Language selector">
+        <button class="lang-btn" aria-pressed="true">EN</button>
+        <img src="picture/united-kingdom.png" alt="United Kingdom flag" class="flag">
+      </div>
 
-  <p>Privacy Policy</p>
-  <p>Term of Use </p>
-  <p>Term and Conditions Of Sale</p>
-</div>
- <div class="language">
-    <h3>EN</h3>
-    <img src="picture/united-kingdom.png" alt="Uk-logo">
-</div>
-  </div>
+      <p class="copyright">© <span id="year"></span> Rainy Days</p>
+    </div>
   </div>
 </section>
 
+
   </footer>
-  
+<script src="index.js"></script></body>
+
 </body>
 </html>
