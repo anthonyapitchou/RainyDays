@@ -46,7 +46,6 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
-
 .nav-left ul {
 display: flex;
 align-items: center;
@@ -65,6 +64,8 @@ height: 100%;
 .nav-left a {
 text-decoration: none;
 color: #333;
+font-weight: bold;
+
 }
 
 
@@ -78,8 +79,6 @@ margin: auto;
 transition: transform 0.3s ease, filter 0.3s ease;
 cursor: pointer;
 }
-
-
 
 .nav-right ul{
 display: flex;
@@ -148,10 +147,6 @@ width: 40px;
 font-weight: bold;
 }
 
-.heart-icon {
- font-size: 20px;
- cursor: pointer;
-}
 
 .regroup{
  display:flex;
@@ -162,7 +157,7 @@ align-items: center;
 }
 
 
-
+/*other content*/
 .scroll-wrapper{
     padding-top: 20px;
     font-size: 20px;      
@@ -240,6 +235,7 @@ button:hover {
   color: white;
   transform: translateY(-2px);
 }
+
 .dropdown-btn {
   position: relative;
   display: inline-block;
@@ -398,55 +394,147 @@ margin: 5px 0;
 }
 
 
+/* Footer - bottom bar */
 .footer-bar {
+  background: transparent;
+  padding: 20px 0 0;
+}
+
+.footer-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: justify;
   align-items: center;
+  gap: 20px;
   padding: 10px 20px;
-  background-color: #f5f5f5;
+  border-top: 1px solid rgba(0,0,0,0.06);
 }
 
-.info {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 20px;
-}
-
-.logo-botton {
+/* Left side: logo + legal links */
+.footer-legal {
   display: flex;
   align-items: center;
-  gap: 20px;
-}
-.logo-botton img{
-  width: 150px;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
-.logo-botton p {
-  margin: 0 15px 0 0;
+.logo-bottom img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+/* Legal links as inline list */
+.legal-links ul {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-items: center;
+}
+
+.legal-links a {
+  text-decoration: none;
+  color: #333;
   font-size: 14px;
+}
+.legal-links a:hover { text-decoration: underline; }
+
+/* FOOTER BAR */
+.footer-bar {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  background-color: #fcfcfc;
+}
+
+.footer-bar-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between; /* separates left and right */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* LEFT SIDE */
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  height: 45px;
+  width: auto;
+}
+
+.legal-links ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legal-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.legal-links a:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* RIGHT SIDE */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.language {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 600;
   cursor: pointer;
 }
 
-
-.language {
-  margin-left: 100px;
-  display: flex;
-justify-content: flex-end;
-  align-items: flex-end;
-  gap: 10px;
+.lang-btn[aria-pressed="true"] {
+  background: #1b1b1b;
+  color: #fff;
+  border-color: #1b1b1b;
 }
 
-.language h3 {
+.flag {
+  width: 26px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.copyright {
   margin: 0;
-  font-weight: 600;
-  font-size: 16px;
+  font-size: 13px;
+  color: #666;
 }
 
-.language img {
-  width: 24px;
-  height: auto;
-}
+
+
 
 /* Responsive layout: stack rows to columns on small screens */
 @media (max-width: 900px) {
@@ -485,8 +573,8 @@ justify-content: flex-end;
 
   /* Regroup section (search, profile, heart, nav-right) stacked */
   .regroup {
-    display: flex ;
-    flex-direction: row ;
+    display: flex !important;
+    flex-direction: row !important;
     align-items: center;
     gap: 10px;
     width: 100%;
@@ -537,7 +625,7 @@ justify-content: flex-end;
   .container {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center;
+     align-items: center;
     gap: 25px;
     margin: 20px 10px;
   }
@@ -589,5 +677,8 @@ justify-content: flex-end;
     width: 30px !important;
   }
 }
+
+
+
 
 
