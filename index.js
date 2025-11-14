@@ -251,3 +251,23 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
   window.initializeHeaderFunctionality = initializeHeaderFunctionality;
 
 })();
+
+async function loadProduct() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id'); // ex: aquaGuard.html?id=3
+  if (!id) return;
+
+  try {
+    const response = await fetch(`https://api.noroff.dev/api/v1/rainy-days/${id}`);
+    if (!response.ok) throw new Error('API error');
+    const product = await response.json();
+
+    document.getElementById('product-title').textContent = product.title;
+    document.getElementById('product-price').textContent = `$${product.price}`;
+    document.getElementById('product-image').src = product.image;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadProduct);
