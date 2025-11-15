@@ -84,7 +84,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     function openBasket() {
       if (!basketPopup) {
         // fallback: go to payment page
-        window.location.href = 'payment.html';
+        window.location.href = 'checkout.html';
         return;
       }
       basketPopup.classList.add('show');
@@ -153,7 +153,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
         basketPopupFooter.innerHTML = `
           <div class="basket-footer-inner">
             <p><strong>Total:</strong> ${formatPrice(total)}</p>
-            <a href="payment.html" class="confirm-btn">Confirm my order</a>
+            <a href="confirmation.html" class="confirm-btn">Confirm my order</a>
           </div>
         `;
       }
@@ -271,3 +271,61 @@ async function loadProduct() {
 }
 
 document.addEventListener('DOMContentLoaded', loadProduct);
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  injectHeader(); // ta fonction existante
+
+  if (window.location.pathname.includes('confirmation.html')) {
+    const STORAGE_KEY = 'rainy_basket_v1';
+    const cartContainer = document.getElementById('cart-container');
+    const totalContainer = document.getElementById('total-container');
+
+    function readBasket() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function formatPrice(price) {
+      const num = Number(String(price).replace(/[^0-9.-]+/g, ''));
+      return isNaN(num) ? 0 : num;
+    }
+
+    function renderCart() {
+      const basket = readBasket();
+      if (!cartContainer || !totalContainer) return;
+
+      if (basket.length === 0) {
+        cartContainer.innerHTML = '<p>Votre panier est vide.</p>';
+        totalContainer.innerHTML = '<strong>Total : $0</strong>';
+        return;
+      }
+
+      let total = 0;
+      const html = basket.map(item => {
+        const name = item.name || 'Produit';
+        const price = formatPrice(item.price);
+        const qty = item.qty || 1;
+        total += price * qty;
+
+        return `
+          <div class="checkout-item">
+            <div class="ci-name">${name}</div>
+            <div class="ci-meta">Prix: $${price.toFixed(2)} • Qté: ${qty}</div>
+          </div>
+        `;
+      }).join('');
+
+      cartContainer.innerHTML = html;
+      totalContainer.innerHTML = `<strong>Total : $${total.toFixed(2)}</strong>`;
+    }
+
+    // Rendu initial du panier
+    renderCart();
+  }
+});
+
+
