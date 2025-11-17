@@ -1,18 +1,19 @@
+// main.js
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
-
 /* ------------------ Helpers ------------------ */
-// safe get by id
 function $id(id) { return document.getElementById(id); }
 
-// Escape HTML
 function escapeHtml(str = '') {
-  return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
-    .replaceAll('"','&quot;').replaceAll("'", '&#39;');
+  return String(str)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'", '&#39;');
 }
 
-// Format price helper
 function formatPrice(n) {
   if (n === null || n === undefined) return '';
   const val = Number(n);
@@ -23,21 +24,18 @@ function formatPrice(n) {
 /* ------------------ Load header & footer ------------------ */
 async function loadHeaderFooter() {
   try {
-    const response = await fetch('global.html');  // ton fichier global contenant header + footer
+    const response = await fetch('global.html');
     const text = await response.text();
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = text;
 
-    // Inject header
     const header = tempDiv.querySelector('header');
     if (header) $id('header-container')?.appendChild(header);
 
-    // Inject footer
     const footer = tempDiv.querySelector('footer');
     if (footer) $id('footer-container')?.appendChild(footer);
 
-    // Initialise le panier et filtre après injection
-    initializeHeaderFunctionality();
+    initializeHeaderFunctionality(); // initialise panier et filtre
   } catch (err) {
     console.error('Erreur chargement header/footer:', err);
   }
@@ -52,25 +50,15 @@ function attachBasketHandlers() {
   const basketPopupContent = $id('basketPopupContent');
   const basketPopupFooter = $id('basketPopupFooter');
 
-  if (!basketBtn) {
-    console.warn('No #basketBtn found — basket disabled.');
-    return;
-  }
+  if (!basketBtn) return;
 
-  // load from storage
   let basketItems = [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     basketItems = raw ? JSON.parse(raw) : [];
-  } catch (err) {
-    console.warn('Could not parse basket:', err);
-    basketItems = [];
-  }
+  } catch { basketItems = []; }
 
-  function saveBasket() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems)); }
-    catch (err) { console.warn('Could not save basket', err); }
-  }
+  function saveBasket() { localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems)); }
 
   function updateBasketCount() {
     if (!basketCount) return;
@@ -87,19 +75,19 @@ function attachBasketHandlers() {
     basketPopup.setAttribute('aria-hidden', 'false');
     renderBasket();
   }
+
   function closeBasket() {
     if (!basketPopup) return;
     basketPopup.classList.remove('show');
     basketPopup.setAttribute('aria-hidden', 'true');
   }
 
-  // events
-  basketBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openBasket(); });
-  if (basketCloseBtn) basketCloseBtn.addEventListener('click', (e) => { e.preventDefault(); closeBasket(); });
-  if (basketPopup) basketPopup.addEventListener('click', (e) => { if (e.target === basketPopup) closeBasket(); });
+  basketBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openBasket(); });
+  if (basketCloseBtn) basketCloseBtn.addEventListener('click', e => { e.preventDefault(); closeBasket(); });
+  if (basketPopup) basketPopup.addEventListener('click', e => { if (e.target === basketPopup) closeBasket(); });
 
   function addToBasket(name, price, image) {
-    basketItems.push({ name: String(name || 'Product'), price: String(price || ''), image: String(image || '') });
+    basketItems.push({ name: String(name || 'Product'), price: String(price || ''), image: String(image || ''), qty: 1 });
     saveBasket();
     updateBasketCount();
     renderBasket();
@@ -116,6 +104,7 @@ function attachBasketHandlers() {
 
   function renderBasket() {
     if (!basketPopupContent) return;
+
     if (basketItems.length === 0) {
       basketPopupContent.innerHTML = `<p class="empty-basket-message">Your basket is empty.</p>`;
       if (basketPopupFooter) basketPopupFooter.innerHTML = '';
@@ -123,8 +112,8 @@ function attachBasketHandlers() {
     }
 
     const html = basketItems.map((it, idx) => {
-      const name = escapeHtml(it.name || 'Product');
-      const price = escapeHtml(it.price || '');
+      const name = escapeHtml(it.name);
+      const price = escapeHtml(it.price);
       const image = escapeHtml(it.image || 'picture/default.png');
       return `
         <div class="basket-item" data-index="${idx}">
@@ -137,10 +126,11 @@ function attachBasketHandlers() {
         </div>
       `;
     }).join('');
+
     basketPopupContent.innerHTML = html;
 
     const total = basketItems.reduce((sum, it) => {
-      const numeric = Number(String(it.price).replace(/[^0-9\.\-]+/g, '')) || 0;
+      const numeric = Number(String(it.price).replace(/[^0-9.-]+/g,'')) || 0;
       return sum + numeric;
     }, 0);
 
@@ -154,9 +144,8 @@ function attachBasketHandlers() {
     }
   }
 
-  // delegate remove clicks
   if (basketPopupContent) {
-    basketPopupContent.addEventListener('click', (e) => {
+    basketPopupContent.addEventListener('click', e => {
       const btn = e.target.closest('.basket-remove-btn');
       if (!btn) return;
       const idx = Number(btn.dataset.index);
@@ -164,7 +153,6 @@ function attachBasketHandlers() {
     });
   }
 
-  // attach add-to-cart buttons present on page
   document.querySelectorAll('.add-to-cart').forEach(btn => {
     btn.removeEventListener('click', onAddToCartClick);
     btn.addEventListener('click', onAddToCartClick);
@@ -186,31 +174,22 @@ function attachBasketHandlers() {
 function attachFilterHandlers() {
   const filterBtn = $id('filter-btn');
   const filterPopup = $id('filter-popup');
-  const filterCloseBtn = filterPopup ? filterPopup.querySelector('.filter-close-btn') : null;
+  const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
   const searchInput = $id('search-input');
   const filterLinks = document.querySelectorAll('.filter-link');
 
-  if (!filterPopup) {
-    console.warn('No #filter-popup found — filter disabled.');
-    return;
-  }
+  if (!filterPopup) return;
 
-  function showFilter() {
-    filterPopup.classList.add('show');
-    filterPopup.setAttribute('aria-hidden', 'false');
-  }
-  function hideFilter() {
-    filterPopup.classList.remove('show');
-    filterPopup.setAttribute('aria-hidden', 'true');
-  }
+  function showFilter() { filterPopup.classList.add('show'); filterPopup.setAttribute('aria-hidden','false'); }
+  function hideFilter() { filterPopup.classList.remove('show'); filterPopup.setAttribute('aria-hidden','true'); }
 
-  if (filterBtn) filterBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); filterPopup.classList.toggle('show'); });
+  if (filterBtn) filterBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); filterPopup.classList.toggle('show'); });
   if (searchInput) { searchInput.addEventListener('focus', showFilter); searchInput.addEventListener('click', showFilter); }
   if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
-  filterPopup.addEventListener('click', (e) => { if (e.target === filterPopup) hideFilter(); });
+  filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
 
   filterLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', e => {
       e.preventDefault();
       const category = link.dataset.category;
       console.log('Filter selected:', category);
@@ -219,7 +198,7 @@ function attachFilterHandlers() {
   });
 }
 
-/* ------------------ Initialize (après injection header/footer) ------------------ */
+/* ------------------ Initialize ------------------ */
 function initializeHeaderFunctionality() {
   if (window._headerInitDone) return;
   window._headerInitDone = true;
@@ -229,7 +208,7 @@ function initializeHeaderFunctionality() {
   console.log('Header/Footer functionality initialized');
 }
 
-/* ------------------ Load product ------------------ */
+/* ------------------ Load single product ------------------ */
 async function loadProduct() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -248,14 +227,14 @@ async function loadProduct() {
   }
 }
 
-/* ------------------ Checkout page basket ------------------ */
+/* ------------------ Checkout page ------------------ */
 function renderCheckoutBasket() {
   if (!window.location.pathname.includes('confirmation.html')) return;
   const cartContainer = $id('cart-container');
   const totalContainer = $id('total-container');
 
   function readBasket() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } 
     catch { return []; }
   }
 
