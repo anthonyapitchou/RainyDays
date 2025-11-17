@@ -1,3 +1,12 @@
+:root {
+    --font-primary: "Boots And Spurs", "Segoe UI", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --color-primary:#1b1b1b;
+  --color-secondary: #fcfcfc; 
+  --color-button-bg: #fcfcfc;
+  --border-radius: 0.3em;
+ --width:100%;
+  --max-width: 1920px;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Boots+And+Spurs&display=swap');
 
@@ -314,4 +323,5 @@ transition: background-color 0.2s ease, transform 0.2s ease;
 text-align: left;
 margin: 5px 0;
 }
+
 
