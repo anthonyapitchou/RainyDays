@@ -1,5 +1,4 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
-const STORAGE_KEY = 'rainy_basket_v1';
 
 /* ------------------ Helpers ------------------ */
 // safe get by id
