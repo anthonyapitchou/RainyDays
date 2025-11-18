@@ -2,19 +2,20 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
 /* header-loader.js - inject header and init basket + filter (single-file, robust) */
 (function () {
-  const HEADER_PATH = 'global.html'; // adjust path if needed
+  const HEADER_PATH = 'global.html';
   const STORAGE_KEY = 'rainy_basket_v1';
 
-  // safe get by id
   function $id(id) { return document.getElementById(id); }
 
-  // Escape for HTML
   function escapeHtml(str = '') {
-    return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
-      .replaceAll('"','&quot;').replaceAll("'", '&#39;');
+    return String(str)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
   }
 
-  // Format price helper (simple)
   function formatPrice(n) {
     if (n === null || n === undefined) return '';
     const val = Number(n);
@@ -22,7 +23,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     return val % 1 === 0 ? `$${val}` : `$${val.toFixed(2)}`;
   }
 
-  // Inject header.html once
   document.addEventListener('DOMContentLoaded', () => {
     const container = $id('header-container');
     if (!container) {
@@ -30,8 +30,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       return;
     }
     if (container.dataset.loaded === 'true') {
-      // already injected earlier
-      initializeHeaderFunctionality(); // ensure handlers are attached
+      initializeHeaderFunctionality();
       return;
     }
 
@@ -39,7 +38,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       .then(res => { if (!res.ok) throw new Error('Header load failed'); return res.text(); })
       .then(html => {
         container.innerHTML = html;
-        container.dataset.loaded = 'true';
+        'true';
         console.log('Header injected');
         initializeHeaderFunctionality();
       })
@@ -60,7 +59,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       return;
     }
 
-    // load from storage
     let basketItems = [];
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -83,7 +81,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
     function openBasket() {
       if (!basketPopup) {
-        // fallback: go to payment page
         window.location.href = 'checkout.html';
         return;
       }
@@ -97,12 +94,10 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       basketPopup.setAttribute('aria-hidden', 'true');
     }
 
-    // events
     basketBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openBasket(); });
     if (basketCloseBtn) basketCloseBtn.addEventListener('click', (e) => { e.preventDefault(); closeBasket(); });
     if (basketPopup) basketPopup.addEventListener('click', (e) => { if (e.target === basketPopup) closeBasket(); });
 
-    // add / remove / render
     function addToBasket(name, price, image) {
       basketItems.push({ name: String(name || 'Product'), price: String(price || ''), image: String(image || '') });
       saveBasket();
@@ -133,7 +128,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
         const image = escapeHtml(it.image || 'picture/default.png');
         return `
           <div class="basket-item" data-index="${idx}">
-            <img src="${image}" alt="${name}" class="basket-item-image" />
+            ${image}
             <div class="basket-item-info">
               <p class="basket-item-name">${name}</p>
               <p class="basket-item-price">${price}</p>
@@ -153,13 +148,12 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
         basketPopupFooter.innerHTML = `
           <div class="basket-footer-inner">
             <p><strong>Total:</strong> ${formatPrice(total)}</p>
-            <a href="confirmation.html" class="confirm-btn">Confirm my order</a>
+            confirmation.htmlConfirm my order</a>
           </div>
         `;
       }
     }
 
-    // delegate remove clicks
     if (basketPopupContent) {
       basketPopupContent.addEventListener('click', (e) => {
         const btn = e.target.closest('.basket-remove-btn');
@@ -169,9 +163,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       });
     }
 
-    // attach add-to-cart buttons present on page
     document.querySelectorAll('.add-to-cart').forEach(btn => {
-      // avoid double binding: remove then add
       btn.removeEventListener('click', onAddToCartClick);
       btn.addEventListener('click', onAddToCartClick);
     });
@@ -185,9 +177,8 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       addToBasket(name, price, image);
     }
 
-    // init count
     updateBasketCount();
-  } // attachBasketHandlers end
+  }
 
   /* ------------------ Filter handlers ------------------ */
   function attachFilterHandlers() {
@@ -216,7 +207,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     }
 
     if (searchInput) {
-      // optional: open on focus
       searchInput.addEventListener('focus', showFilter);
       searchInput.addEventListener('click', showFilter);
     }
@@ -230,31 +220,49 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
         const category = link.dataset.category;
         console.log('Filter selected:', category);
         hideFilter();
-        // TODO: call your product filtering function here
       });
     });
   }
 
-  /* ------------------ Initialize (called once after header injection) ------------------ */
   function initializeHeaderFunctionality() {
     if (window._headerInitDone) return;
     window._headerInitDone = true;
 
-    // Attach both modules (safe if elements missing)
     attachBasketHandlers();
     attachFilterHandlers();
 
     console.log('Header functionality initialized');
+
+    // ✅ Fix header and footer positions dynamically
+    const header = document.getElementById('header-container');
+    const footer = document.querySelector('footer');
+
+    if (header) {
+      header.style.position = 'fixed';
+      header.style.top = '0';
+      header.style.left = '0';
+      header.style.width = '100%';
+      header.style.zIndex = '2000';
+    }
+
+    if (footer) {
+      footer.style.position = 'fixed';
+      footer.style.bottom = '0';
+      footer.style.left = '0';
+      footer.style.width = '100%';
+      footer.style.zIndex = '2000';
+    }
+
+    document.body.style.paddingTop = header ? `${header.offsetHeight}px` : '60px';
+    document.body.style.paddingBottom = footer ? `${footer.offsetHeight}px` : '60px';
   }
 
-  // expose init for cases where header already exists in DOM
   window.initializeHeaderFunctionality = initializeHeaderFunctionality;
-
 })();
 
 async function loadProduct() {
   const params = new URLSearchParams(window.location.search);
-  const id = params.get('id'); // ex: aquaGuard.html?id=3
+  const id = params.get('id');
   if (!id) return;
 
   try {
@@ -272,9 +280,8 @@ async function loadProduct() {
 
 document.addEventListener('DOMContentLoaded', loadProduct);
 
-
 document.addEventListener('DOMContentLoaded', () => {
-  injectHeader(); // ta fonction existante
+  injectHeader();
 
   if (window.location.pathname.includes('confirmation.html')) {
     const STORAGE_KEY = 'rainy_basket_v1';
@@ -299,14 +306,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!cartContainer || !totalContainer) return;
 
       if (basket.length === 0) {
-        cartContainer.innerHTML = '<p>Votre panier est vide.</p>';
-        totalContainer.innerHTML = '<strong>Total : $0</strong>';
+        cartContainer.innerHTML = '<p>Your basket is empty.</p>';
+        totalContainer.innerHTML = '<strong>Total: $0</strong>';
         return;
       }
 
       let total = 0;
       const html = basket.map(item => {
-        const name = item.name || 'Produit';
+        const name = item.name || 'Product';
         const price = formatPrice(item.price);
         const qty = item.qty || 1;
         total += price * qty;
@@ -314,18 +321,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
           <div class="checkout-item">
             <div class="ci-name">${name}</div>
-            <div class="ci-meta">Prix: $${price.toFixed(2)} • Qté: ${qty}</div>
+            <div class="ci-meta">Price: $${price.toFixed(2)} • Qty: ${qty}</div>
           </div>
         `;
       }).join('');
 
       cartContainer.innerHTML = html;
-      totalContainer.innerHTML = `<strong>Total : $${total.toFixed(2)}</strong>`;
+      totalContainer.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
     }
 
-    // Rendu initial du panier
     renderCart();
   }
 });
+
 
 
