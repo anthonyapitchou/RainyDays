@@ -1,6 +1,5 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
-/* header-loader.js - inject header and init basket + filter (single-file, robust) */
 (function () {
   const HEADER_PATH = 'global.html';
   const STORAGE_KEY = 'rainy_basket_v1';
@@ -38,14 +37,13 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       .then(res => { if (!res.ok) throw new Error('Header load failed'); return res.text(); })
       .then(html => {
         container.innerHTML = html;
-        'true';
+        container.dataset.loaded = 'true';
         console.log('Header injected');
         initializeHeaderFunctionality();
       })
       .catch(err => console.error('Header injection error:', err));
   });
 
-  /* ------------------ Basket handlers ------------------ */
   function attachBasketHandlers() {
     const basketBtn = $id('basketBtn');
     const basketPopup = $id('basketPopup');
@@ -54,23 +52,18 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     const basketPopupContent = $id('basketPopupContent');
     const basketPopupFooter = $id('basketPopupFooter');
 
-    if (!basketBtn) {
-      console.warn('No #basketBtn found — basket disabled.');
-      return;
-    }
+    if (!basketBtn) return;
 
     let basketItems = [];
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       basketItems = raw ? JSON.parse(raw) : [];
-    } catch (err) {
-      console.warn('Could not parse basket:', err);
+    } catch {
       basketItems = [];
     }
 
     function saveBasket() {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems)); }
-      catch (err) { console.warn('Could not save basket', err); }
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems)); } catch {}
     }
 
     function updateBasketCount() {
@@ -180,7 +173,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     updateBasketCount();
   }
 
-  /* ------------------ Filter handlers ------------------ */
   function attachFilterHandlers() {
     const filterBtn = $id('filter-btn');
     const filterPopup = $id('filter-popup');
@@ -188,10 +180,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     const searchInput = $id('search-input');
     const filterLinks = document.querySelectorAll('.filter-link');
 
-    if (!filterPopup) {
-      console.warn('No #filter-popup found — filter disabled.');
-      return;
-    }
+    if (!filterPopup) return;
 
     function showFilter() {
       filterPopup.classList.add('show');
@@ -230,8 +219,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
     attachBasketHandlers();
     attachFilterHandlers();
-
-    console.log('Header functionality initialized');
 
     // ✅ Fix header and footer positions dynamically
     const header = document.getElementById('header-container');
@@ -333,6 +320,5 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
   }
 });
-
 
 
