@@ -2,8 +2,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
 /* header-loader.js - inject header and init basket + filter (single-file, robust) */
 (function () {
-  const HEADER_PATH = 'header.html'; // adjust path if needed
-  const FOOTER_PATH = 'footer.html'; // new footer file
+  const GLOBAL_PATH = 'global.html'; // contains both header and footer
   const STORAGE_KEY = 'rainy_basket_v1';
 
   function $id(id) { return document.getElementById(id); }
@@ -24,52 +23,31 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
   document.addEventListener('DOMContentLoaded', () => {
     const headerContainer = $id('header-container');
-    = $id('footer-container');
+    const footerContainer = $id('footer-container');
 
     if (!headerContainer) console.error('Missing <div id="header-container"></div>');
-    if (!footerContainer) console.error('Missing <div id="footer-container"></div>');
+    if (!footerContainer) console.error('Missing <div id=" = html;    if (!footerContainer) console.error('Missing <div id="footer-container"></div>');
 
-    // Inject header
-    if (headerContainer && !headerContainer.dataset.loaded) {
-      fetch(HEADER_PATH)
-        .then(res => {
-          if (!res.ok) throw new Error('Header load failed');
-          return res.text();
-        })
-        .then(html => {
-          headerContainer.innerHTML = html;
-          headerContainer.dataset.loaded = 'true';
-          initializeHeaderFunctionality();
-        })
-        .catch(err => {
-          console.error('Header injection error:', err);
-          headerContainer.innerHTML = `<header><h1>RainyDays</h1></header>`;
-          initializeHeaderFunctionality();
-        });
-    }
+       Div.querySelector('header');
+        const footer = tempDiv.querySelector('footer');
 
-    // Inject footer
-    if (footerContainer && !footerContainer.dataset.loaded) {
-      fetch(FOOTER_PATH)
-        .then(res => {
-          if (!res.ok) throw new Error('Footer load failed');
-          return res.text();
-        })
-        .then(html => {
-          footerContainer.innerHTML = html;
-          footerContainer.dataset.loaded = 'true';
-        })
-        .catch(err => {
-          console.error('Footer injection error:', err);
-          footerContainer.innerHTML = `<footer><p>&copy; RainyDays</p></footer>`;
-        });
-    }
+        if (header && headerContainer) headerContainer.innerHTML = header.outerHTML;
+        if (footer && footerContainer) footerContainer.innerHTML = footer.outerHTML;
+
+        initializeHeaderFunctionality();
+      })
+      .catch(err => {
+        console.error('Injection error:', err);
+        if (headerContainer) headerContainer.innerHTML = `<header><h1>RainyDays</h1></header>`;
+        if (footerContainer) footerContainer.innerHTML = `<footer><p>&copy; RainyDays</p></footer>`;
+        initializeHeaderFunctionality();
+      });
   });
 
   function initializeHeaderFunctionality() {
     attachBasketHandlers();
     attachFilterHandlers();
-    // ✅ Removed fixed positioning logic so footer stays at bottom naturally
+    // ✅ No fixed positioning → footer stays at bottom naturally
   }
 
   function attachBasketHandlers() {
@@ -186,6 +164,16 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     filterPopup.addEventListener('click', e => { if (e.target === filterPopup) filterPopup.classList.remove('show'); });
   }
 })();
+
+    fetch(GLOBAL_PATH)
+      .then(res => {
+        if (!res.ok) throw new Error('Global file load failed');
+        return res.text();
+      })
+      .then(html => {
+        // ✅ Parse global.html and extract header/footer
+        const tempDiv = document.createElement('div');
+
 
   /* ------------------ Basket handlers ------------------ */
   function attachBasketHandlers() {
