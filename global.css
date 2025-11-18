@@ -39,7 +39,9 @@
 .filter-popup-content li a { display:block; padding:8px 6px; text-decoration:none; color:inherit; }
 .filter-popup-content li a:hover { background:#f4f4f4; }
 
-
+.search-filter-wrapper {
+  position: relative;
+}
 
 
 /* BASKET: right-side full-height panel (unchanged behavior) */
