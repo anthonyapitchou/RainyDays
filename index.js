@@ -3,281 +3,144 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
 /* ------------------ Helpers ------------------ */
+// --- PATH AUTO POUR GITHUB PAGES ---
+let GLOBAL_PATH = 'global.html';  // pour localhost
+if (location.pathname.includes('/RainyDays/')) GLOBAL_PATH = '/RainyDays/global.html';
+console.log('Using GLOBAL_PATH =', GLOBAL_PATH);
+
+const STORAGE_KEY = 'rainy_basket_v1';
+
+/* ------------------ Helpers ------------------ */
 function $id(id) { return document.getElementById(id); }
-
 function escapeHtml(str = '') {
-  return String(str)
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'", '&#39;');
+  return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'", '&#39;');
 }
-
 function formatPrice(n) {
-  if (n === null || n === undefined) return '';
+  if (n == null) return '';
   const val = Number(n);
-  if (Number.isNaN(val)) return String(n);
   return val % 1 === 0 ? `$${val}` : `$${val.toFixed(2)}`;
 }
 
-/* ------------------ Load header & footer ------------------ */
+/* ------------------ Load header/footer ------------------ */
 async function loadHeaderFooter() {
   try {
-    const response = await fetch('global.html');
-    const text = await response.text();
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = text;
+    const resp = await fetch(GLOBAL_PATH);
+    const html = await resp.text();
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
 
-    const header = tempDiv.querySelector('header');
-    if (header) $id('header-container')?.appendChild(header);
+    const header = temp.querySelector('header');
+    const footer = temp.querySelector('footer');
 
-    const footer = tempDiv.querySelector('footer');
-    if (footer) $id('footer-container')?.appendChild(footer);
+    if ($id('header-container') && header) $id('header-container').appendChild(header);
+    if ($id('footer-container') && footer) $id('footer-container').appendChild(footer);
 
-    initializeHeaderFunctionality(); // initialise panier et filtre
+    initializeHeaderFunctionality();
   } catch (err) {
-    console.error('Erreur chargement header/footer:', err);
+    console.error('Error loading header/footer', err);
   }
 }
 
-/* ------------------ Basket handlers ------------------ */
+/* ------------------ Basket ------------------ */
 function attachBasketHandlers() {
-  const basketBtn = $id('basketBtn');
-  const basketPopup = $id('basketPopup');
+  const headerRoot = document.getElementById('header-container') || document;
+  const basketBtn = headerRoot.querySelector('#basketBtn');
+  const basketPopup = document.getElementById('basketPopup');
   const basketCloseBtn = document.querySelector('.basket-close-btn');
-  const basketCount = $id('basketCount');
-  const basketPopupContent = $id('basketPopupContent');
-  const basketPopupFooter = $id('basketPopupFooter');
+  const basketCount = document.getElementById('basketCount');
+  const basketPopupContent = document.getElementById('basketPopupContent');
+  const basketPopupFooter = document.getElementById('basketPopupFooter');
 
   if (!basketBtn) return;
 
   let basketItems = [];
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    basketItems = raw ? JSON.parse(raw) : [];
-  } catch { basketItems = []; }
+  try { basketItems = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { basketItems = []; }
 
   function saveBasket() { localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems)); }
-
-  function updateBasketCount() {
-    if (!basketCount) return;
-    basketCount.textContent = basketItems.length;
-    basketCount.style.display = basketItems.length ? 'inline-block' : 'none';
-  }
-
-  function openBasket() {
-    if (!basketPopup) {
-      window.location.href = 'checkout.html';
-      return;
-    }
-    basketPopup.classList.add('show');
-    basketPopup.setAttribute('aria-hidden', 'false');
-    renderBasket();
-  }
-
-  function closeBasket() {
-    if (!basketPopup) return;
-    basketPopup.classList.remove('show');
-    basketPopup.setAttribute('aria-hidden', 'true');
-  }
-
-  basketBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openBasket(); });
-  if (basketCloseBtn) basketCloseBtn.addEventListener('click', e => { e.preventDefault(); closeBasket(); });
-  if (basketPopup) basketPopup.addEventListener('click', e => { if (e.target === basketPopup) closeBasket(); });
-
-  function addToBasket(name, price, image) {
-    basketItems.push({ name: String(name || 'Product'), price: String(price || ''), image: String(image || ''), qty: 1 });
-    saveBasket();
-    updateBasketCount();
-    renderBasket();
-    openBasket();
-  }
-
-  function removeFromBasket(index) {
-    if (index < 0 || index >= basketItems.length) return;
-    basketItems.splice(index, 1);
-    saveBasket();
-    updateBasketCount();
-    renderBasket();
-  }
+  function updateBasketCount() { basketCount.textContent = basketItems.length; basketCount.style.display = basketItems.length ? 'inline-block':'none'; }
 
   function renderBasket() {
     if (!basketPopupContent) return;
-
-    if (basketItems.length === 0) {
+    if (!basketItems.length) {
       basketPopupContent.innerHTML = `<p class="empty-basket-message">Your basket is empty.</p>`;
       if (basketPopupFooter) basketPopupFooter.innerHTML = '';
       return;
     }
-
-    const html = basketItems.map((it, idx) => {
-      const name = escapeHtml(it.name);
-      const price = escapeHtml(it.price);
-      const image = escapeHtml(it.image || 'picture/default.png');
-      return `
-        <div class="basket-item" data-index="${idx}">
-          <img src="${image}" alt="${name}" class="basket-item-image" />
-          <div class="basket-item-info">
-            <p class="basket-item-name">${name}</p>
-            <p class="basket-item-price">${price}</p>
-          </div>
-          <button class="basket-remove-btn" data-index="${idx}" aria-label="Remove item">Remove</button>
-        </div>
-      `;
-    }).join('');
+    const html = basketItems.map((it, idx) => `<div class="basket-item" data-index="${idx}">
+      <img src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}" class="basket-item-image" />
+      <div class="basket-item-info">
+        <p class="basket-item-name">${escapeHtml(it.name)}</p>
+        <p class="basket-item-price">${escapeHtml(it.price)}</p>
+      </div>
+      <button class="basket-remove-btn" data-index="${idx}" aria-label="Remove item">Remove</button>
+    </div>`).join('');
 
     basketPopupContent.innerHTML = html;
 
-    const total = basketItems.reduce((sum, it) => {
-      const numeric = Number(String(it.price).replace(/[^0-9.-]+/g,'')) || 0;
-      return sum + numeric;
-    }, 0);
-
     if (basketPopupFooter) {
-      basketPopupFooter.innerHTML = `
-        <div class="basket-footer-inner">
-          <p><strong>Total:</strong> ${formatPrice(total)}</p>
-          <a href="confirmation.html" class="confirm-btn">Confirm my order</a>
-        </div>
-      `;
+      const total = basketItems.reduce((sum,it) => sum + (Number(String(it.price).replace(/[^0-9.-]+/g,''))||0),0);
+      basketPopupFooter.innerHTML = `<div class="basket-footer-inner">
+        <p><strong>Total:</strong> ${formatPrice(total)}</p>
+        <a href="confirmation.html" class="confirm-btn">Confirm my order</a>
+      </div>`;
     }
   }
 
-  if (basketPopupContent) {
-    basketPopupContent.addEventListener('click', e => {
-      const btn = e.target.closest('.basket-remove-btn');
-      if (!btn) return;
-      const idx = Number(btn.dataset.index);
-      removeFromBasket(idx);
-    });
+  function openBasket() { basketPopup.classList.add('show'); basketPopup.setAttribute('aria-hidden','false'); renderBasket(); }
+  function closeBasket() { basketPopup.classList.remove('show'); basketPopup.setAttribute('aria-hidden','true'); }
+
+  function addToBasket(name, price, image) {
+    basketItems.push({ name, price, image, qty: 1 });
+    saveBasket(); updateBasketCount(); renderBasket(); openBasket();
   }
 
-  document.querySelectorAll('.add-to-cart').forEach(btn => {
-    btn.removeEventListener('click', onAddToCartClick);
-    btn.addEventListener('click', onAddToCartClick);
+  function removeFromBasket(idx) {
+    basketItems.splice(idx,1);
+    saveBasket(); updateBasketCount(); renderBasket();
+  }
+
+  basketBtn.addEventListener('click', e=>{ e.preventDefault(); openBasket(); });
+  if (basketCloseBtn) basketCloseBtn.addEventListener('click', e=>{ e.preventDefault(); closeBasket(); });
+  basketPopup.addEventListener('click', e=>{ if(e.target===basketPopup) closeBasket(); });
+  if (basketPopupContent) basketPopupContent.addEventListener('click', e=>{
+    const btn = e.target.closest('.basket-remove-btn'); if(btn) removeFromBasket(Number(btn.dataset.index));
   });
 
-  function onAddToCartClick(e) {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    const name = btn.dataset.name || btn.getAttribute('data-name');
-    const price = btn.dataset.price || btn.getAttribute('data-price');
-    const image = btn.dataset.image || btn.getAttribute('data-image') || btn.querySelector('img')?.src;
-    addToBasket(name, price, image);
-  }
+  document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', e=>{ e.preventDefault(); addToBasket(btn.dataset.name, btn.dataset.price, btn.dataset.image); });
+  });
 
   updateBasketCount();
+  window.addToBasket = addToBasket;
 }
 
-/* ------------------ Filter handlers ------------------ */
+/* ------------------ Filter ------------------ */
 function attachFilterHandlers() {
   const filterBtn = $id('filter-btn');
   const filterPopup = $id('filter-popup');
   const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
   const searchInput = $id('search-input');
-  const filterLinks = document.querySelectorAll('.filter-link');
 
   if (!filterPopup) return;
-
   function showFilter() { filterPopup.classList.add('show'); filterPopup.setAttribute('aria-hidden','false'); }
   function hideFilter() { filterPopup.classList.remove('show'); filterPopup.setAttribute('aria-hidden','true'); }
 
-  if (filterBtn) filterBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); filterPopup.classList.toggle('show'); });
+  if (filterBtn) filterBtn.addEventListener('click', e=>{ e.preventDefault(); filterPopup.classList.toggle('show'); });
   if (searchInput) { searchInput.addEventListener('focus', showFilter); searchInput.addEventListener('click', showFilter); }
   if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
-  filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
-
-  filterLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const category = link.dataset.category;
-      console.log('Filter selected:', category);
-      hideFilter();
-    });
-  });
+  filterPopup.addEventListener('click', e=>{ if(e.target===filterPopup) hideFilter(); });
 }
 
-/* ------------------ Initialize ------------------ */
 function initializeHeaderFunctionality() {
   if (window._headerInitDone) return;
   window._headerInitDone = true;
-
   attachBasketHandlers();
   attachFilterHandlers();
-  console.log('Header/Footer functionality initialized');
-}
-
-/* ------------------ Load single product ------------------ */
-async function loadProduct() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  if (!id) return;
-
-  try {
-    const response = await fetch(`${apiUrl}/${id}`);
-    if (!response.ok) throw new Error('API error');
-    const product = await response.json();
-
-    $id('product-title').textContent = product.title;
-    $id('product-price').textContent = `$${product.price}`;
-    $id('product-image').src = product.image;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/* ------------------ Checkout page ------------------ */
-function renderCheckoutBasket() {
-  if (!window.location.pathname.includes('confirmation.html')) return;
-  const cartContainer = $id('cart-container');
-  const totalContainer = $id('total-container');
-
-  function readBasket() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } 
-    catch { return []; }
-  }
-
-  function formatPriceNum(price) {
-    const num = Number(String(price).replace(/[^0-9.-]+/g, ''));
-    return isNaN(num) ? 0 : num;
-  }
-
-  function renderCart() {
-    const basket = readBasket();
-    if (!cartContainer || !totalContainer) return;
-
-    if (basket.length === 0) {
-      cartContainer.innerHTML = '<p>Votre panier est vide.</p>';
-      totalContainer.innerHTML = '<strong>Total : $0</strong>';
-      return;
-    }
-
-    let total = 0;
-    const html = basket.map(item => {
-      const name = item.name || 'Produit';
-      const price = formatPriceNum(item.price);
-      const qty = item.qty || 1;
-      total += price * qty;
-
-      return `
-        <div class="checkout-item">
-          <div class="ci-name">${name}</div>
-          <div class="ci-meta">Prix: $${price.toFixed(2)} • Qté: ${qty}</div>
-        </div>
-      `;
-    }).join('');
-
-    cartContainer.innerHTML = html;
-    totalContainer.innerHTML = `<strong>Total : $${total.toFixed(2)}</strong>`;
-  }
-
-  renderCart();
+  console.log('Header/Footer initialized');
 }
 
 /* ------------------ DOMContentLoaded ------------------ */
 document.addEventListener('DOMContentLoaded', () => {
   loadHeaderFooter();
-  loadProduct();
-  renderCheckoutBasket();
 });
+
