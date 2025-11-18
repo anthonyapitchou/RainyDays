@@ -2,29 +2,32 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
-/* ------------------ Helpers ------------------ */
-const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
-
-/* header-loader.js - inject header and init basket + filter (single-file, robust) */
+/* ------------------ Header Loader ------------------ */
 (function () {
-  const HEADER_PATH = 'header.html'; // adjust path if needed
+  const HEADER_PATH = 'global.html'; // ✅ ton fichier global (header + footer)
   const STORAGE_KEY = 'rainy_basket_v1';
 
   function $id(id) {
     return document.getElementById(id);
   }
 
-  // inject header
+  // Inject header
   fetch(HEADER_PATH)
     .then(response => response.text())
     .then(html => {
-      document.getElementById('header-container').innerHTML = html;
-      initBasket();
-      initScroll();
+      const headerContainer = document.getElementById('header-container');
+      if (headerContainer) {
+        headerContainer.innerHTML = html;
+        initBasket();
+        initScroll();
+        console.log(`✅ Header loaded from ${HEADER_PATH}`);
+      } else {
+        console.error('❌ header-container not found in index.html');
+      }
     })
     .catch(err => console.error('Header load error:', err));
 
-  // init basket from localStorage
+  // Init basket count
   function initBasket() {
     const basketCount = $id('basket-count');
     if (!basketCount) return;
@@ -32,13 +35,13 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     basketCount.textContent = basket.length;
   }
 
-  // add item to basket
-  window.addToBasket = function(product) {
+  // Add item to basket
+  window.addToBasket = function (product) {
     let basket = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     basket.push(product);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(basket));
     initBasket();
-  }
+  };
 
   // Scroll arrows
   function initScroll() {
@@ -61,7 +64,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
   }
 })();
 
-/* Newsletter form submit */
+/* ------------------ Newsletter Form ------------------ */
 const newsletterForm = document.querySelector('.newsletter-form');
 if (newsletterForm) {
   newsletterForm.addEventListener('submit', e => {
@@ -73,13 +76,13 @@ if (newsletterForm) {
   });
 }
 
-/* Fetch products from API */
+/* ------------------ Fetch Products ------------------ */
 async function fetchProducts() {
   try {
     const res = await fetch(apiUrl);
     if (!res.ok) throw new Error('Network response was not ok');
     const products = await res.json();
-    console.log('Fetched products:', products);
+    console.log('✅ Fetched products:', products);
     return products;
   } catch (err) {
     console.error('API fetch error:', err);
@@ -88,4 +91,3 @@ async function fetchProducts() {
 }
 
 fetchProducts();
-
