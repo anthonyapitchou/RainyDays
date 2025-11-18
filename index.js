@@ -1,5 +1,5 @@
 (function () {
-  const HEADER_PATH = 'global.html'; 
+  const HEADER_PATH = 'global.html';
   const STORAGE_KEY = 'rainy_basket_v1';
 
   function $id(id) { return document.getElementById(id); }
@@ -68,18 +68,14 @@
     }
 
     function openBasket() {
-      if (basketPopup) {
-        basketPopup.classList.add('show');
-        basketPopup.setAttribute('aria-hidden', 'false');
-        renderBasket();
-      }
+      basketPopup.classList.add('show');
+      basketPopup.setAttribute('aria-hidden', 'false');
+      renderBasket();
     }
 
     function closeBasket() {
-      if (basketPopup) {
-        basketPopup.classList.remove('show');
-        basketPopup.setAttribute('aria-hidden', 'true');
-      }
+      basketPopup.classList.remove('show');
+      basketPopup.setAttribute('aria-hidden', 'true');
     }
 
     basketBtn?.addEventListener('click', openBasket);
@@ -103,7 +99,6 @@
 
     function renderBasket() {
       if (!basketPopupContent) return;
-
       if (basketItems.length === 0) {
         basketPopupContent.innerHTML = '<p>Your basket is empty.</p>';
         basketPopupFooter.innerHTML = '';
@@ -112,13 +107,13 @@
 
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
-          <img src="${it.image}" alt="${escapeHtml(it.name)}" style="width:60px;height:auto;" />
+          <img src="${it.image}" alt="${escapeHtml(it.name)}" style="width:80px; height:auto;" />
           <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
       `).join('');
 
-      const total = basketItems.reduce((sum, it) => sum + (Number(it.price.replace(/[^0-9.-]+/g, '')) || 0), 0);
+      const total = basketItems.reduce((sum, it) => sum + (Number(it.price) || 0), 0);
       basketPopupFooter.innerHTML = `
         <div><strong>Total:</strong> ${formatPrice(total)}</div>
         <a href="confirmation.html" class="confirm-order-btn">Confirm my order</a>
@@ -150,17 +145,20 @@
     const searchInput = $id('search-input');
 
     function showFilter() {
-      filterPopup.classList.add('show');
-      filterPopup.setAttribute('aria-hidden', 'false');
+      if (filterPopup) {
+        filterPopup.classList.add('show');
+        filterPopup.setAttribute('aria-hidden', 'false');
+      }
     }
 
     function hideFilter() {
-      filterPopup.classList.remove('show');
-      filterPopup.setAttribute('aria-hidden', 'true');
+      if (filterPopup) {
+        filterPopup.classList.remove('show');
+        filterPopup.setAttribute('aria-hidden', 'true');
+      }
     }
 
     if (searchInput) searchInput.addEventListener('focus', showFilter);
-    if (searchInput) searchInput.addEventListener('click', showFilter);
     if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
     if (filterPopup) filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
   }
