@@ -1,6 +1,6 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
-/* header-loader.js - inject header and init basket + filter (single-file, robust) */
+/* header-loader.js - inject header and init basket + filter */
 (function () {
   const GLOBAL_PATH = 'global.html'; // contains both header and footer
   const STORAGE_KEY = 'rainy_basket_v1';
@@ -16,8 +16,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       .replace(/'/g, '&#39;');
   }
 
-  function formatPrice(n) {
-    const val = Number(n);
+ (n);
     return isNaN(val) ? '' : `$${val.toFixed(2)}`;
   }
 
@@ -34,11 +33,10 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
         return res.text();
       })
       .then(html => {
-        // ✅ Parse global.html and extract header/footer
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = html;
 
-        const header tempDiv.querySelector('header');
+        const header = tempDiv.querySelector('header');
         const footer = tempDiv.querySelector('footer');
 
         if (header && headerContainer) headerContainer.innerHTML = header.outerHTML;
@@ -57,7 +55,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
   function initializeHeaderFunctionality() {
     attachBasketHandlers();
     attachFilterHandlers();
-    // ✅ No fixed positioning → footer stays at bottom naturally
   }
 
   function attachBasketHandlers() {
