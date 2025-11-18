@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Boots+And+Spurs&display=swap');
+
 :root {
     --font-primary: "Boots And Spurs", "Segoe UI", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --color-primary:#1b1b1b;
@@ -8,7 +10,6 @@
   --max-width: 1920px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Boots+And+Spurs&display=swap');
 
 html {
   box-sizing: border-box;
@@ -525,4 +526,5 @@ transition: background-color 0.2s ease, transform 0.2s ease;
 color: #ffffff;
   border-color: green;
 }
+
 
