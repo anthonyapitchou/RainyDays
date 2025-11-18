@@ -1,7 +1,3 @@
-// main.js
-const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
-const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
-
 (function () {
   const HEADER_PATH = 'global.html'; // ton fichier global
   const STORAGE_KEY = 'rainy_basket_v1';
@@ -19,7 +15,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
   function formatPrice(n) {
     const val = Number(n);
-    return val % 1 === 0 ? `$${val}` : `$${val.toFixed(2)}`;
+    return (val % 1 === 0) ? `$${val}` : `$${val.toFixed(2)}`;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -32,7 +28,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
     }
 
     fetch(HEADER_PATH)
-      .then(resp => resp.text())
+      .then(res => res.text())
       .then(html => {
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = html;
@@ -72,21 +68,19 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
     }
 
     function openBasket() {
-      basketPopup?.classList.add('show');
-      basketPopup?.setAttribute('aria-hidden', 'false');
+      basketPopup.classList.add('show');
+      basketPopup.setAttribute('aria-hidden', 'false');
       renderBasket();
     }
 
     function closeBasket() {
-      basketPopup?.classList.remove('show');
-      basketPopup?.setAttribute('aria-hidden', 'true');
+      basketPopup.classList.remove('show');
+      basketPopup.setAttribute('aria-hidden', 'true');
     }
 
     basketBtn?.addEventListener('click', openBasket);
     basketCloseBtn?.addEventListener('click', closeBasket);
-    basketPopup?.addEventListener('click', e => {
-      if (e.target === basketPopup) closeBasket();
-    });
+    basketPopup?.addEventListener('click', e => { if (e.target === basketPopup) closeBasket(); });
 
     function addToBasket(name, price, image) {
       basketItems.push({ name, price, image });
@@ -104,7 +98,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
     }
 
     function renderBasket() {
-      if (!basketPopupContent || !basketPopupFooter) return;
+      if (!basketPopupContent) return;
 
       if (basketItems.length === 0) {
         basketPopupContent.innerHTML = '<p>Your basket is empty.</p>';
@@ -114,7 +108,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
-          ${escapeHtml(it.image)}
+          <img src="${it.image}" alt="${escapeHtml(it.name)}" />
           <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
@@ -136,7 +130,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
         e.preventDefault();
         const name = btn.dataset.name;
         const price = btn.dataset.price;
-        const image = btn.dataset.image || btn.querySelector('img')?.outerHTML || '';
+        const image = btn.dataset.image || btn.querySelector('img')?.src;
         addToBasket(name, price, image);
       });
     });
@@ -151,30 +145,24 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
     const searchInput = $id('search-input');
 
     function showFilter() {
-      filterPopup?.classList.add('show');
-      filterPopup?.setAttribute('aria-hidden', 'false');
+      filterPopup.classList.add('show');
+      filterPopup.setAttribute('aria-hidden', 'false');
     }
 
     function hideFilter() {
-      filterPopup?.classList.remove('show');
-      filterPopup?.setAttribute('aria-hidden', 'true');
+      filterPopup.classList.remove('show');
+      filterPopup.setAttribute('aria-hidden', 'true');
     }
 
-    searchInput?.addEventListener('focus', showFilter);
-    filterCloseBtn?.addEventListener('click', hideFilter);
-    filterPopup?.addEventListener('click', e => {
-      if (e.target === filterPopup) hideFilter();
-    });
+    if (searchInput) searchInput.addEventListener('focus', showFilter);
+    if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
+    if (filterPopup) filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
   }
 
-  /* ------------------ Init ------------------ */
   function initializeHeaderFunctionality() {
     attachBasketHandlers();
     attachFilterHandlers();
-    console.log('✅ Header & functionality initialized');
+    console.log('✅ Header functionality initialized');
   }
-
 })();
-
-
 
