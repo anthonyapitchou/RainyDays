@@ -16,9 +16,7 @@
   function formatPrice(n) {
     const val = Number(n);
     return (val % 1 === 0) ? `$${val}` : `$${val.toFixed(2)}`;
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
+ EventListener('DOMContentLoaded', () => {
     const headerContainer = $id('header-container');
     const footerContainer = $id('footer-container');
 
@@ -33,7 +31,7 @@
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = html;
 
-        const header = tempDiv.querySelector('header');
+        header = tempDiv.querySelector('header');
         const footer = tempDiv.querySelector('footer');
         const basketPopup = tempDiv.querySelector('#basketPopup');
         const filterPopup = tempDiv.querySelector('#filter-popup');
@@ -109,7 +107,10 @@
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
           ${it.image}
-          <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
+          <div class="basket-item-info">
+            <p class="basket-item-name">${escapeHtml(it.name)}</p>
+            <p class="basket-item-price">${escapeHtml(it.price)}</p>
+          </div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
       `).join('');
@@ -146,17 +147,18 @@
 
     if (!filterPopup || !searchInput) return;
 
-    // ✅ Ajout : calcule la position sous l'input
+    // ✅ Positionner le pop-up juste sous la barre de recherche
     function positionFilterPopup() {
       const rect = searchInput.getBoundingClientRect();
       filterPopup.style.position = 'fixed';
       filterPopup.style.top = `${rect.bottom + 8}px`;
       filterPopup.style.left = `${rect.left}px`;
       filterPopup.style.width = `${rect.width}px`;
+      filterPopup.style.zIndex = '1200';
     }
 
     function showFilter() {
-      positionFilterPopup(); // ✅ On calcule avant d'afficher
+      positionFilterPopup();
       filterPopup.classList.add('show');
       filterPopup.setAttribute('aria-hidden', 'false');
     }
@@ -172,8 +174,11 @@
     if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
     filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
 
-    // ✅ Repositionner si la fenêtre change
     window.addEventListener('resize', () => {
+      if (filterPopup.classList.contains('show')) positionFilterPopup();
+    });
+
+    window.addEventListener('scroll', () => {
       if (filterPopup.classList.contains('show')) positionFilterPopup();
     });
   }
