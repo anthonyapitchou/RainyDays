@@ -26,9 +26,19 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     const footerContainer = $id('footer-container');
 
     if (!headerContainer) console.error('Missing <div id="header-container"></div>');
-    if (!footerContainer) console.error('Missing <div id=" = html;    if (!footerContainer) console.error('Missing <div id="footer-container"></div>');
+    if (!footerContainer) console.error('Missing <div id="footer-container"></div>');
 
-       Div.querySelector('header');
+    fetch(GLOBAL_PATH)
+      .then(res => {
+        if (!res.ok) throw new Error('Global file load failed');
+        return res.text();
+      })
+      .then(html => {
+        // ✅ Parse global.html and extract header/footer
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+
+        const header tempDiv.querySelector('header');
         const footer = tempDiv.querySelector('footer');
 
         if (header && headerContainer) headerContainer.innerHTML = header.outerHTML;
@@ -164,15 +174,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     filterPopup.addEventListener('click', e => { if (e.target === filterPopup) filterPopup.classList.remove('show'); });
   }
 })();
-
-    fetch(GLOBAL_PATH)
-      .then(res => {
-        if (!res.ok) throw new Error('Global file load failed');
-        return res.text();
-      })
-      .then(html => {
-        // ✅ Parse global.html and extract header/footer
-        const tempDiv = document.createElement('div');
 
 
   /* ------------------ Basket handlers ------------------ */
