@@ -1,177 +1,50 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
-/* header-loader.js - inject header and init basket + filter */
+/* header-loader.js - inject header and init basket + filter (single-file, robust) */
 (function () {
-  const GLOBAL_PATH = 'global.html'; // contains both header and footer
+  const HEADER_PATH = 'global.html'; // adjust path if needed
   const STORAGE_KEY = 'rainy_basket_v1';
 
+  // safe get by id
   function $id(id) { return document.getElementById(id); }
 
+  // Escape for HTML
   function escapeHtml(str = '') {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+    return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+      .replaceAll('"','&quot;').replaceAll("'", '&#39;');
   }
 
+  // Format price helper (simple)
   function formatPrice(n) {
+    if (n === null || n === undefined) return '';
     const val = Number(n);
-    return isNaN(val) ? '' : `$${val.toFixed(2)}`;
+    if (Number.isNaN(val)) return String(n);
+    return val % 1 === 0 ? `$${val}` : `$${val.toFixed(2)}`;
   }
 
+  // Inject header.html once
   document.addEventListener('DOMContentLoaded', () => {
-    const headerContainer = $id('header-container');
-    const footerContainer = $id('footer-container');
+    const container = $id('header-container');
+    if (!container) {
+      console.error('Add <div id="header-container"></div> to your pages.');
+      return;
+    }
+    if (container.dataset.loaded === 'true') {
+      // already injected earlier
+      initializeHeaderFunctionality(); // ensure handlers are attached
+      return;
+    }
 
-    if (!headerContainer) console.error('Missing <div id="header-container"></div>');
-    if (!footerContainer) console.error('Missing <div id="footer-container"></div>');
-
-    fetch(GLOBAL_PATH)
-      .then(res => {
-        if (!res.ok) throw new Error('Global file load failed');
-        return res.text();
-      })
+    fetch(HEADER_PATH)
+      .then(res => { if (!res.ok) throw new Error('Header load failed'); return res.text(); })
       .then(html => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-
-        const header = tempDiv.querySelector('header');
-        const footer = tempDiv.querySelector('footer');
-
-        if (header && headerContainer) headerContainer.innerHTML = header.outerHTML;
-        if (footer && footerContainer) footerContainer.innerHTML = footer.outerHTML;
-
+        container.innerHTML = html;
+        container.dataset.loaded = 'true';
+        console.log('Header injected');
         initializeHeaderFunctionality();
       })
-      .catch(err => {
-        console.error('Injection error:', err);
-        if (headerContainer) headerContainer.innerHTML = `<header><h1>RainyDays</h1></header>`;
-        if (footerContainer) footerContainer.innerHTML = `<footer><p>&copy; RainyDays</p></footer>`;
-        initializeHeaderFunctionality();
-      });
+      .catch(err => console.error('Header injection error:', err));
   });
-
-  function initializeHeaderFunctionality() {
-    attachBasketHandlers();
-    attachFilterHandlers();
-  }
-
-  function attachBasketHandlers() {
-    const basketBtn = $id('basketBtn');
-    const basketPopup = $id('basketPopup');
-    const basketCloseBtn = document.querySelector('.basket-close-btn');
-    const basketCount = $id('basketCount');
-    const basketPopupContent = $id('basketPopupContent');
-    const basketPopupFooter = $id('basketPopupFooter');
-
-    let basketItems = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-
-    function saveBasket() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems));
-    }
-
-    function updateBasketCount() {
-      if (!basketCount) return;
-      basketCount.textContent = basketItems.length;
-      basketCount.style.display = basketItems.length ? 'inline-block' : 'none';
-    }
-
-    function openBasket() {
-      basketPopup?.classList.add('show');
-      basketPopup?.setAttribute('aria-hidden', 'false');
-      renderBasket();
-    }
-
-    function closeBasket() {
-      basketPopup?.classList.remove('show');
-      basketPopup?.setAttribute('aria-hidden', 'true');
-    }
-
-    function addToBasket(name, price, image) {
-      basketItems.push({ name, price, image });
-      saveBasket();
-      updateBasketCount();
-      renderBasket();
-      openBasket();
-    }
-
-    function removeFromBasket(index) {
-      basketItems.splice(index, 1);
-      saveBasket();
-      updateBasketCount();
-      renderBasket();
-    }
-
-    function renderBasket() {
-      if (!basketPopupContent) return;
-      if (basketItems.length === 0) {
-        basketPopupContent.innerHTML = `<p>Your basket is empty.</p>`;
-        basketPopupFooter.innerHTML = '';
-        return;
-      }
-
-      const html = basketItems.map((item, idx) => `
-        <div class="basket-item" data-index="${idx}">
-          ${escapeHtml(item.image)}
-          <div class="basket-item-info">
-            <p>${escapeHtml(item.name)}</p>
-            <p>${escapeHtml(item.price)}</p>
-          </div>
-          <button class="basket-remove-btn" data-index="${idx}">Remove</button>
-        </div>
-      `).join('');
-      basketPopupContent.innerHTML = html;
-
-      const total = basketItems.reduce((sum, it) => {
-        const numeric = Number(String(it.price).replace(/[^0-9.\-]+/g, '')) || 0;
-        return sum + numeric;
-      }, 0);
-
-      basketPopupFooter.innerHTML = `
-        <div class="basket-footer-inner">
-          <p><strong>Total:</strong> ${formatPrice(total)}</p>
-          confirmation.htmlConfirm my order</a>
-        </div>
-      `;
-    }
-
-    basketBtn?.addEventListener('click', openBasket);
-    basketCloseBtn?.addEventListener('click', closeBasket);
-    basketPopup?.addEventListener('click', e => { if (e.target === basketPopup) closeBasket(); });
-
-    basketPopupContent?.addEventListener('click', e => {
-      const btn = e.target.closest('.basket-remove-btn');
-      if (!btn) return;
-      removeFromBasket(Number(btn.dataset.index));
-    });
-
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        const name = btn.dataset.name;
-        const price = btn.dataset.price;
-        const image = btn.dataset.image || btn.querySelector('img')?.src;
-        addToBasket(name, price, image);
-      });
-    });
-
-    updateBasketCount();
-  }
-
-  function attachFilterHandlers() {
-    const filterBtn = $id('filter-btn');
-    const filterPopup = $id('filter-popup');
-    const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
-
-    if (!filterPopup) return;
-
-    filterBtn?.addEventListener('click', () => filterPopup.classList.toggle('show'));
-    filterCloseBtn?.addEventListener('click', () => filterPopup.classList.remove('show'));
-    filterPopup.addEventListener('click', e => { if (e.target === filterPopup) filterPopup.classList.remove('show'); });
-  }
-})();
 
   /* ------------------ Basket handlers ------------------ */
   function attachBasketHandlers() {
@@ -454,6 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
   }
 });
+
+
 
 
 
