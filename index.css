@@ -44,12 +44,6 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
 }
 
-#header-container {
-  min-height: 50px; /* Or a reasonable temporary height */
-  background-color: #f0f0f0; /* So you can see it */
-  border: 1px solid #ccc; /* Helps visualize the box model */
-}
-
 
 .nav-left ul {
 display: flex;
@@ -531,6 +525,7 @@ transition: background-color 0.2s ease, transform 0.2s ease;
 color: #ffffff;
   border-color: green;
 }
+
 
 
 
