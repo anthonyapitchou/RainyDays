@@ -2,14 +2,10 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
-/* ------------------ Header & Footer Loader ------------------ */
 (function () {
   const GLOBAL_PATH = 'global.html';
 
-  function $id(id) {
-    return document.getElementById(id);
-  }
-
+  // Charger header + footer + basket popup
   fetch(GLOBAL_PATH)
     .then(response => response.text())
     .then(html => {
@@ -18,24 +14,35 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
       const header = tempDiv.querySelector('header');
       const footer = tempDiv.querySelector('footer');
+      const basketPopup = tempDiv.querySelector('#basketPopup');
 
-      if (header) document.getElementById('header-container').appendChild(header);
-      if (footer) document.getElementById('footer-container').appendChild(footer);
+      // Inject header en haut
+      const headerContainer = document.getElementById('header-container');
+      if (header && headerContainer) headerContainer.appendChild(header);
 
+      // Inject footer en bas
+      const footerContainer = document.getElementById('footer-container');
+      if (footer && footerContainer) footerContainer.appendChild(footer);
+
+      // Inject basket popup dans body
+      if (basketPopup) document.body.appendChild(basketPopup);
+
+      // Initialiser les fonctionnalités
       initBasket();
-      initScroll();
-      initBasketPopup(); // ✅ Ajout de la logique pour le panier
-      console.log(`✅ Header & Footer loaded from ${GLOBAL_PATH}`);
+      initBasketPopup();
+      console.log('✅ Header, footer et basket popup chargés.');
     })
-    .catch(err => console.error('Global load error:', err));
+    .catch(err => console.error('Erreur chargement global.html:', err));
 
+  // Mettre à jour le compteur du panier
   function initBasket() {
-    const basketCount = $id('basketCount');
+    const basketCount = document.getElementById('basketCount');
     if (!basketCount) return;
     const basket = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     basketCount.textContent = basket.length;
   }
 
+  // Ajouter un produit au panier
   window.addToBasket = function (product) {
     let basket = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     basket.push(product);
@@ -43,26 +50,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
     initBasket();
   };
 
-  function initScroll() {
-    const scrollWrapper = document.querySelector('.scroll-wrapper');
-    if (!scrollWrapper) return;
-
-    const gridContainer = scrollWrapper.querySelector('.grid-container');
-    const arrows = scrollWrapper.querySelectorAll('.scroll-arrow');
-
-    arrows.forEach(arrow => {
-      arrow.addEventListener('click', () => {
-        const scrollAmount = 300;
-        if (arrow.textContent === '→') {
-          gridContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        } else {
-          gridContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-
-  /* ✅ Basket Popup Logic */
+  // ✅ Logique pour ouvrir/fermer la fenêtre du panier
   function initBasketPopup() {
     const basketBtn = document.getElementById('basketBtn');
     const basketPopup = document.getElementById('basketPopup');
@@ -70,13 +58,13 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
     if (!basketBtn || !basketPopup) return;
 
-    // Open popup
+    // Ouvrir le panier
     basketBtn.addEventListener('click', () => {
-      basketPopup.style.display = 'flex'; // or use a CSS class
+      basketPopup.style.display = 'flex';
       basketPopup.setAttribute('aria-hidden', 'false');
     });
 
-    // Close popup
+    // Fermer avec la croix
     if (basketCloseBtn) {
       basketCloseBtn.addEventListener('click', () => {
         basketPopup.style.display = 'none';
@@ -84,7 +72,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
       });
     }
 
-    // Close when clicking outside
+    // Fermer en cliquant en dehors
     basketPopup.addEventListener('click', (e) => {
       if (e.target === basketPopup) {
         basketPopup.style.display = 'none';
