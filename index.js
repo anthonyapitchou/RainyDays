@@ -2,7 +2,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
 /* header-loader.js - inject header and init basket + filter */
 (function () {
-  const HEADER_PATH = 'header.html'; // Adjust if header file is in another folder
+  const HEADER_PATH = 'global.html'; // Adjust if header file is in another folder
   const STORAGE_KEY = 'rainy_basket_v1';
 
   function $id(id) { return document.getElementById(id); }
