@@ -108,7 +108,7 @@
 
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
-          <img src="${it.image}" alt="${escapeHtml(it.name)}" style="width:50px;height:auto;" />
+          ${it.image}
           <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
@@ -117,16 +117,14 @@
       const total = basketItems.reduce((sum, it) => sum + (Number(it.price) || 0), 0);
       basketPopupFooter.innerHTML = `
         <div><strong>Total:</strong> ${formatPrice(total)}</div>
-        <a href="confirmation.html" class="confirm-order-btn">Confirm my order</a>
+        confirmation.htmlConfirm my order</a>
       `;
 
-      // delegate remove clicks
       basketPopupContent.querySelectorAll('.basket-remove-btn').forEach(btn => {
         btn.addEventListener('click', () => removeFromBasket(Number(btn.dataset.index)));
       });
     }
 
-    // attach add-to-cart buttons
     document.querySelectorAll('.add-to-cart').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
@@ -142,14 +140,23 @@
 
   /* ------------------ Filter ------------------ */
   function attachFilterHandlers() {
-    // récupérer les éléments après injection
     const filterPopup = document.querySelector('#filter-popup');
     const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
     const searchInput = document.querySelector('#search-input');
 
     if (!filterPopup || !searchInput) return;
 
+    // ✅ Ajout : calcule la position sous l'input
+    function positionFilterPopup() {
+      const rect = searchInput.getBoundingClientRect();
+      filterPopup.style.position = 'fixed';
+      filterPopup.style.top = `${rect.bottom + 8}px`;
+      filterPopup.style.left = `${rect.left}px`;
+      filterPopup.style.width = `${rect.width}px`;
+    }
+
     function showFilter() {
+      positionFilterPopup(); // ✅ On calcule avant d'afficher
       filterPopup.classList.add('show');
       filterPopup.setAttribute('aria-hidden', 'false');
     }
@@ -159,12 +166,16 @@
       filterPopup.setAttribute('aria-hidden', 'true');
     }
 
-    // ouverture au focus et clic
     searchInput.addEventListener('focus', showFilter);
     searchInput.addEventListener('click', showFilter);
 
     if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
     filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
+
+    // ✅ Repositionner si la fenêtre change
+    window.addEventListener('resize', () => {
+      if (filterPopup.classList.contains('show')) positionFilterPopup();
+    });
   }
 
   function initializeHeaderFunctionality() {
