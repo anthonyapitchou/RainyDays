@@ -1,26 +1,43 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
-const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
+const STORAGE_KEY = 'rainy_basket_v1';
+const HEADER_PATH = 'global.html';
 
-
-const HEADER_PATH = 'global.html'; // ton fichier global
-
-/* ------------------ Basket handlers ------------------ */
 function attachBasketHandlers() {
-  const basketBtn = document.getElementById('basketBtn') || document.querySelectorinline-block' : 'none'; });  const basketBtn = document.getElementById('basketBtn') || document.querySelector('.basket-btn') || document.querySelector('[data-basket-btn]');
+  const basketBtn = document.getElementById('basketBtn') || document.querySelector('.basket-btn') || document.querySelector('[data-basket-btn]');
+  const overlay = document.querySelector('.basket-popup-overlay') || document.getElementById('basketPopup');
+  if (!basketBtn || !overlay) return;
+
+  const popup = overlay.querySelector('.basket-popup') || overlay;
+  const closeBtn = overlay.querySelector('.basket-close-btn');
+  const contentEl = overlay.querySelector('#basketPopupContent') || overlay.querySelector('.basket-popup-content') || overlay.querySelector('.basketPopupContent');
+  const footerEl = overlay.querySelector('#basketPopupFooter') || overlay.querySelector('.basket-popup-footer') || overlay.querySelector('.basketPopupFooter');
+  const badgeEls = document.querySelectorAll('.basket-count');
+
+  function readItems() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
+  }
+  function saveItems(items) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch (e) { console.warn('save basket failed', e); }
+  }
+
+  let items = readItems();
+
+  function updateBadge() {
+    const count = items.length;
+    badgeEls.forEach(b => { b.textContent = String(count); b.style.display = count ? 'inline-block' : 'none'; });
   }
 
   function openBasket() {
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
 
-    // ✅ Correction : ne pas couvrir le header
     overlay.style.position = 'fixed';
-    overlay.style.top = '60px'; // hauteur du header
+    overlay.style.top = '60px';
     overlay.style.left = '0';
     overlay.style.width = '100%';
-    overlay.style.height = 'calc(100% - 60px)'; // reste de la page
-    overlay.style.zIndex = '1000'; // assez haut pour être visible, mais pas casser le header
-    overlay.style.background = 'rgba(255,255,255,0.95)'; // léger fond
+    overlay.style.height = 'calc(100% - 60px)';
+    overlay.style.zIndex = '1000';
+    overlay.style.background = 'rgba(255,255,255,0.95)';
 
     render();
   }
@@ -29,7 +46,6 @@ function attachBasketHandlers() {
     overlay.classList.remove('show');
     overlay.setAttribute('aria-hidden', 'true');
 
-    // ✅ Reset styles pour éviter conflits
     overlay.style.position = '';
     overlay.style.top = '';
     overlay.style.height = '';
@@ -70,9 +86,8 @@ function attachBasketHandlers() {
       let imgHtml = '';
       if (!it.image) {
         imgHtml = `<div class="basket-item-image" style="width:60px;height:60px;background:#f2f2f2;border-radius:6px"></div>`;
-      } else if (/^\s*${escapeHtml(it.image)}`;
-      }
-      return `
+      } else if (/^\s*<img/i.test(String(it.image))) {
+       return `
         <div class="basket-item" data-index="${idx}" style="display:flex;gap:12px;align-items:center;padding:8px 6px;border-bottom:1px solid #eee;">
           <div class="b-left">${imgHtml}</div>
           <div class="b-mid" style="flex:1;min-width:0;">
@@ -133,27 +148,3 @@ function attachBasketHandlers() {
   window.__rainyBasket.read = readItems;
   window.__rainyBasket.clear = function() { items = []; saveItems(items); render(); updateBadge(); };
 }
-  const overlay = document.querySelector('.basket-popup-overlay') || document.getElementById('basketPopup');
-  if (!basketBtn || !overlay) {
-    return;
-  }
-
-  const popup = overlay.querySelector('.basket-popup') || overlay;
-  const closeBtn = overlay.querySelector('.basket-close-btn');
-  const contentEl = overlay.querySelector('#basketPopupContent') || overlay.querySelector('.basket-popup-content') || overlay.querySelector('.basketPopupContent');
-  const footerEl = overlay.querySelector('#basketPopupFooter') || overlay.querySelector('.basket-popup-footer') || overlay.querySelector('.basketPopupFooter');
-  const badgeEls = document.querySelectorAll('.basket-count');
-
-  // Helpers
-  function readItems() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
-  }
-  function saveItems(items) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch (e) { console.warn('save basket failed', e); }
-  }
-
-  let items = readItems();
-
-  function updateBadge() {
-    const count = items.length;
-
