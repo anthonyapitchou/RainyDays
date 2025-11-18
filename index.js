@@ -1,48 +1,50 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 
+/* header-loader.js - inject header and init basket + filter */
 (function () {
-  const HEADER_PATH = 'global.html';
+  const HEADER_PATH = 'header.html'; // Adjust if header file is in another folder
   const STORAGE_KEY = 'rainy_basket_v1';
 
   function $id(id) { return document.getElementById(id); }
 
   function escapeHtml(str = '') {
     return String(str)
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#39;');
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function formatPrice(n) {
-    if (n === null || n === undefined) return '';
     const val = Number(n);
-    if (Number.isNaN(val)) return String(n);
-    return val % 1 === 0 ? `$${val}` : `$${val.toFixed(2)}`;
+    return isNaN(val) ? '' : `$${val.toFixed(2)}`;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     const container = $id('header-container');
     if (!container) {
-      console.error('Add <div id="header-container"></div> to your pages.');
-      return;
-    }
-    if (container.dataset.loaded === 'true') {
-      initializeHeaderFunctionality();
+      console.error('Missing <div id="header-container"></div> in HTML.');
       return;
     }
 
     fetch(HEADER_PATH)
-      .then(res => { if (!res.ok) throw new Error('Header load failed'); return res.text(); })
+      .then(res => {
+        if (!res.ok) throw new Error('Header load failed');
+        return res.text();
+      })
       .then(html => {
         container.innerHTML = html;
-        container.dataset.loaded = 'true';
-        console.log('Header injected');
         initializeHeaderFunctionality();
       })
       .catch(err => console.error('Header injection error:', err));
   });
+
+  function initializeHeaderFunctionality() {
+    attachBasketHandlers();
+    attachFilterHandlers();
+    // ✅ Removed footer/header fixed positioning to prevent "stuck" footer
+  }
 
   function attachBasketHandlers() {
     const basketBtn = $id('basketBtn');
@@ -52,18 +54,10 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     const basketPopupContent = $id('basketPopupContent');
     const basketPopupFooter = $id('basketPopupFooter');
 
-    if (!basketBtn) return;
-
-    let basketItems = [];
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      basketItems = raw ? JSON.parse(raw) : [];
-    } catch {
-      basketItems = [];
-    }
+    let basketItems = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
     function saveBasket() {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems)); } catch {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(basketItems));
     }
 
     function updateBasketCount() {
@@ -73,26 +67,18 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     }
 
     function openBasket() {
-      if (!basketPopup) {
-        window.location.href = 'checkout.html';
-        return;
-      }
       basketPopup.classList.add('show');
       basketPopup.setAttribute('aria-hidden', 'false');
       renderBasket();
     }
+
     function closeBasket() {
-      if (!basketPopup) return;
       basketPopup.classList.remove('show');
       basketPopup.setAttribute('aria-hidden', 'true');
     }
 
-    basketBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openBasket(); });
-    if (basketCloseBtn) basketCloseBtn.addEventListener('click', (e) => { e.preventDefault(); closeBasket(); });
-    if (basketPopup) basketPopup.addEventListener('click', (e) => { if (e.target === basketPopup) closeBasket(); });
-
     function addToBasket(name, price, image) {
-      basketItems.push({ name: String(name || 'Product'), price: String(price || ''), image: String(image || '') });
+      basketItems.push({ name, price, image });
       saveBasket();
       updateBasketCount();
       renderBasket();
@@ -100,7 +86,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     }
 
     function removeFromBasket(index) {
-      if (index < 0 || index >= basketItems.length) return;
       basketItems.splice(index, 1);
       saveBasket();
       updateBasketCount();
@@ -110,65 +95,55 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     function renderBasket() {
       if (!basketPopupContent) return;
       if (basketItems.length === 0) {
-        basketPopupContent.innerHTML = `<p class="empty-basket-message">Your basket is empty.</p>`;
-        if (basketPopupFooter) basketPopupFooter.innerHTML = '';
+        basketPopupContent.innerHTML = `<p>Your basket is empty.</p>`;
+        basketPopupFooter.innerHTML = '';
         return;
       }
 
-      const html = basketItems.map((it, idx) => {
-        const name = escapeHtml(it.name || 'Product');
-        const price = escapeHtml(it.price || '');
-        const image = escapeHtml(it.image || 'picture/default.png');
-        return `
-          <div class="basket-item" data-index="${idx}">
-            ${image}
-            <div class="basket-item-info">
-              <p class="basket-item-name">${name}</p>
-              <p class="basket-item-price">${price}</p>
-            </div>
-            <button class="basket-remove-btn" data-index="${idx}" aria-label="Remove item">Remove</button>
+      const html = basketItems.map((item, idx) => `
+        <div class="basket-item" data-index="${idx}">
+          ${escapeHtml(item.image)}
+          <div class="basket-item-info">
+            <p>${escapeHtml(item.name)}</p>
+            <p>${escapeHtml(item.price)}</p>
           </div>
-        `;
-      }).join('');
+          <button class="basket-remove-btn" data-index="${idx}">Remove</button>
+        </div>
+      `).join('');
       basketPopupContent.innerHTML = html;
 
       const total = basketItems.reduce((sum, it) => {
-        const numeric = Number(String(it.price).replace(/[^0-9\.\-]+/g, '')) || 0;
+        const numeric = Number(String(it.price).replace(/[^0-9.\-]+/g, '')) || 0;
         return sum + numeric;
       }, 0);
 
-      if (basketPopupFooter) {
-        basketPopupFooter.innerHTML = `
-          <div class="basket-footer-inner">
-            <p><strong>Total:</strong> ${formatPrice(total)}</p>
-            confirmation.htmlConfirm my order</a>
-          </div>
-        `;
-      }
+      basketPopupFooter.innerHTML = `
+        <div class="basket-footer-inner">
+          <p><strong>Total:</strong> ${formatPrice(total)}</p>
+          confirmation.htmlConfirm my order</a>
+        </div>
+      `;
     }
 
-    if (basketPopupContent) {
-      basketPopupContent.addEventListener('click', (e) => {
-        const btn = e.target.closest('.basket-remove-btn');
-        if (!btn) return;
-        const idx = Number(btn.dataset.index);
-        removeFromBasket(idx);
-      });
-    }
+    basketBtn?.addEventListener('click', openBasket);
+    basketCloseBtn?.addEventListener('click', closeBasket);
+    basketPopup?.addEventListener('click', e => { if (e.target === basketPopup) closeBasket(); });
 
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.removeEventListener('click', onAddToCartClick);
-      btn.addEventListener('click', onAddToCartClick);
+    basketPopupContent?.addEventListener('click', e => {
+      const btn = e.target.closest('.basket-remove-btn');
+      if (!btn) return;
+      removeFromBasket(Number(btn.dataset.index));
     });
 
-    function onAddToCartClick(e) {
-      e.preventDefault();
-      const btn = e.currentTarget;
-      const name = btn.dataset.name || btn.getAttribute('data-name');
-      const price = btn.dataset.price || btn.getAttribute('data-price');
-      const image = btn.dataset.image || btn.getAttribute('data-image') || btn.querySelector('img')?.src;
-      addToBasket(name, price, image);
-    }
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const name = btn.dataset.name;
+        const price = btn.dataset.price;
+        const image = btn.dataset.image || btn.querySelector('img')?.src;
+        addToBasket(name, price, image);
+      });
+    });
 
     updateBasketCount();
   }
@@ -176,84 +151,24 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
   function attachFilterHandlers() {
     const filterBtn = $id('filter-btn');
     const filterPopup = $id('filter-popup');
-    const filterCloseBtn = filterPopup ? filterPopup.querySelector('.filter-close-btn') : null;
-    const searchInput = $id('search-input');
-    const filterLinks = document.querySelectorAll('.filter-link');
+    const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
 
     if (!filterPopup) return;
 
-    function showFilter() {
-      filterPopup.classList.add('show');
-      filterPopup.setAttribute('aria-hidden', 'false');
-    }
-    function hideFilter() {
-      filterPopup.classList.remove('show');
-      filterPopup.setAttribute('aria-hidden', 'true');
-    }
-
-    if (filterBtn) {
-      filterBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); filterPopup.classList.toggle('show'); });
-    }
-
-    if (searchInput) {
-      searchInput.addEventListener('focus', showFilter);
-      searchInput.addEventListener('click', showFilter);
-    }
-
-    if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
-    filterPopup.addEventListener('click', (e) => { if (e.target === filterPopup) hideFilter(); });
-
-    filterLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const category = link.dataset.category;
-        console.log('Filter selected:', category);
-        hideFilter();
-      });
-    });
+    filterBtn?.addEventListener('click', () => filterPopup.classList.toggle('show'));
+    filterCloseBtn?.addEventListener('click', () => filterPopup.classList.remove('show'));
+    filterPopup.addEventListener('click', e => { if (e.target === filterPopup) filterPopup.classList.remove('show'); });
   }
-
-  function initializeHeaderFunctionality() {
-    if (window._headerInitDone) return;
-    window._headerInitDone = true;
-
-    attachBasketHandlers();
-    attachFilterHandlers();
-
-    // ✅ Fix header and footer positions dynamically
-    const header = document.getElementById('header-container');
-    const footer = document.querySelector('footer');
-
-    if (header) {
-      header.style.position = 'fixed';
-      header.style.top = '0';
-      header.style.left = '0';
-      header.style.width = '100%';
-      header.style.zIndex = '2000';
-    }
-
-    if (footer) {
-      footer.style.position = 'fixed';
-      footer.style.bottom = '0';
-      footer.style.left = '0';
-      footer.style.width = '100%';
-      footer.style.zIndex = '2000';
-    }
-
-    document.body.style.paddingTop = header ? `${header.offsetHeight}px` : '60px';
-    document.body.style.paddingBottom = footer ? `${footer.offsetHeight}px` : '60px';
-  }
-
-  window.initializeHeaderFunctionality = initializeHeaderFunctionality;
 })();
 
+/* Load product details */
 async function loadProduct() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   if (!id) return;
 
   try {
-    const response = await fetch(`https://api.noroff.dev/api/v1/rainy-days/${id}`);
+    const response = await fetch(`${apiUrl}/${id}`);
     if (!response.ok) throw new Error('API error');
     const product = await response.json();
 
@@ -267,58 +182,34 @@ async function loadProduct() {
 
 document.addEventListener('DOMContentLoaded', loadProduct);
 
+/* Confirmation page */
 document.addEventListener('DOMContentLoaded', () => {
-  injectHeader();
-
   if (window.location.pathname.includes('confirmation.html')) {
     const STORAGE_KEY = 'rainy_basket_v1';
     const cartContainer = document.getElementById('cart-container');
     const totalContainer = document.getElementById('total-container');
 
-    function readBasket() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch {
-        return [];
-      }
+    const basket = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!basket.length) {
+      cartContainer.innerHTML = '<p>Your basket is empty.</p>';
+      totalContainer.innerHTML = '<strong>Total: $0</strong>';
+      return;
     }
 
-    function formatPrice(price) {
-      const num = Number(String(price).replace(/[^0-9.-]+/g, ''));
-      return isNaN(num) ? 0 : num;
-    }
+    let total = 0;
+    const html = basket.map(item => {
+      const price = Number(String(item.price).replace(/[^0-9.\-]+/g, '')) || 0;
+      total += price;
+      return `
+        <div class="checkout-item">
+          <div>${item.name}</div>
+          <div>Price: $${price.toFixed(2)}</div>
+        </div>
+      `;
+    }).join('');
 
-    function renderCart() {
-      const basket = readBasket();
-      if (!cartContainer || !totalContainer) return;
-
-      if (basket.length === 0) {
-        cartContainer.innerHTML = '<p>Your basket is empty.</p>';
-        totalContainer.innerHTML = '<strong>Total: $0</strong>';
-        return;
-      }
-
-      let total = 0;
-      const html = basket.map(item => {
-        const name = item.name || 'Product';
-        const price = formatPrice(item.price);
-        const qty = item.qty || 1;
-        total += price * qty;
-
-        return `
-          <div class="checkout-item">
-            <div class="ci-name">${name}</div>
-            <div class="ci-meta">Price: $${price.toFixed(2)} • Qty: ${qty}</div>
-          </div>
-        `;
-      }).join('');
-
-      cartContainer.innerHTML = html;
-      totalContainer.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
-    }
-
-    renderCart();
+    cartContainer.innerHTML = html;
+    totalContainer.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
   }
 });
-
 
