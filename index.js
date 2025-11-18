@@ -1,5 +1,5 @@
 (function () {
-  const HEADER_PATH = 'global.html';
+  const HEADER_PATH = 'global.html'; // ton fichier global
   const STORAGE_KEY = 'rainy_basket_v1';
 
   function $id(id) { return document.getElementById(id); }
@@ -99,6 +99,7 @@
 
     function renderBasket() {
       if (!basketPopupContent) return;
+
       if (basketItems.length === 0) {
         basketPopupContent.innerHTML = '<p>Your basket is empty.</p>';
         basketPopupFooter.innerHTML = '';
@@ -107,7 +108,7 @@
 
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
-          <img src="${it.image}" alt="${escapeHtml(it.name)}" style="width:80px; height:auto;" />
+          <img src="${it.image}" alt="${escapeHtml(it.name)}" class="basket-item-image" style="width:80px;height:auto;" />
           <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
@@ -119,7 +120,7 @@
         <a href="confirmation.html" class="confirm-order-btn">Confirm my order</a>
       `;
 
-      // delegate remove clicks
+      // supprimer un item
       basketPopupContent.querySelectorAll('.basket-remove-btn').forEach(btn => {
         btn.addEventListener('click', () => removeFromBasket(Number(btn.dataset.index)));
       });
@@ -144,23 +145,22 @@
     const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
     const searchInput = $id('search-input');
 
+    if (!filterPopup || !searchInput) return;
+
     function showFilter() {
-      if (filterPopup) {
-        filterPopup.classList.add('show');
-        filterPopup.setAttribute('aria-hidden', 'false');
-      }
+      filterPopup.classList.add('show');
+      filterPopup.setAttribute('aria-hidden', 'false');
     }
 
     function hideFilter() {
-      if (filterPopup) {
-        filterPopup.classList.remove('show');
-        filterPopup.setAttribute('aria-hidden', 'true');
-      }
+      filterPopup.classList.remove('show');
+      filterPopup.setAttribute('aria-hidden', 'true');
     }
 
-    if (searchInput) searchInput.addEventListener('focus', showFilter);
+    searchInput.addEventListener('focus', showFilter);
+    searchInput.addEventListener('click', showFilter);
     if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
-    if (filterPopup) filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
+    filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
   }
 
   function initializeHeaderFunctionality() {
@@ -169,4 +169,3 @@
     console.log('✅ Header functionality initialized');
   }
 })();
-
