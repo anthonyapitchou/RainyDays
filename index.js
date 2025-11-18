@@ -16,7 +16,8 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       .replace(/'/g, '&#39;');
   }
 
- (n);
+  function formatPrice(n) {
+    const val = Number(n);
     return isNaN(val) ? '' : `$${val.toFixed(2)}`;
   }
 
@@ -171,7 +172,6 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
     filterPopup.addEventListener('click', e => { if (e.target === filterPopup) filterPopup.classList.remove('show'); });
   }
 })();
-
 
   /* ------------------ Basket handlers ------------------ */
   function attachBasketHandlers() {
