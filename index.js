@@ -2,40 +2,40 @@
 const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
 const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
-/* ------------------ Header Loader ------------------ */
+/* ------------------ Header & Footer Loader ------------------ */
 (function () {
-  const HEADER_PATH = 'global.html'; // ✅ ton fichier global (header + footer)
-  const STORAGE_KEY = 'rainy_basket_v1';
+  const GLOBAL_PATH = 'global.html';
 
   function $id(id) {
     return document.getElementById(id);
   }
 
-  // Inject header
-  fetch(HEADER_PATH)
+  fetch(GLOBAL_PATH)
     .then(response => response.text())
     .then(html => {
-      const headerContainer = document.getElementById('header-container');
-      if (headerContainer) {
-        headerContainer.innerHTML = html;
-        initBasket();
-        initScroll();
-        console.log(`✅ Header loaded from ${HEADER_PATH}`);
-      } else {
-        console.error('❌ header-container not found in index.html');
-      }
-    })
-    .catch(err => console.error('Header load error:', err));
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
 
-  // Init basket count
+      const header = tempDiv.querySelector('header');
+      const footer = tempDiv.querySelector('footer');
+
+      if (header) document.getElementById('header-container').appendChild(header);
+      if (footer) document.getElementById('footer-container').appendChild(footer);
+
+      initBasket();
+      initScroll();
+      initBasketPopup(); // ✅ Ajout de la logique pour le panier
+      console.log(`✅ Header & Footer loaded from ${GLOBAL_PATH}`);
+    })
+    .catch(err => console.error('Global load error:', err));
+
   function initBasket() {
-    const basketCount = $id('basket-count');
+    const basketCount = $id('basketCount');
     if (!basketCount) return;
     const basket = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     basketCount.textContent = basket.length;
   }
 
-  // Add item to basket
   window.addToBasket = function (product) {
     let basket = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     basket.push(product);
@@ -43,7 +43,6 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
     initBasket();
   };
 
-  // Scroll arrows
   function initScroll() {
     const scrollWrapper = document.querySelector('.scroll-wrapper');
     if (!scrollWrapper) return;
@@ -53,7 +52,7 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
 
     arrows.forEach(arrow => {
       arrow.addEventListener('click', () => {
-        const scrollAmount = 300; // px to scroll
+        const scrollAmount = 300;
         if (arrow.textContent === '→') {
           gridContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         } else {
@@ -62,32 +61,35 @@ const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
       });
     });
   }
-})();
 
-/* ------------------ Newsletter Form ------------------ */
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-  newsletterForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const email = newsletterForm.querySelector('input[type="email"]').value;
-    if (!email) return;
-    alert(`Thank you for subscribing, ${email}!`);
-    newsletterForm.reset();
-  });
-}
+  /* ✅ Basket Popup Logic */
+  function initBasketPopup() {
+    const basketBtn = document.getElementById('basketBtn');
+    const basketPopup = document.getElementById('basketPopup');
+    const basketCloseBtn = basketPopup?.querySelector('.basket-close-btn');
 
-/* ------------------ Fetch Products ------------------ */
-async function fetchProducts() {
-  try {
-    const res = await fetch(apiUrl);
-    if (!res.ok) throw new Error('Network response was not ok');
-    const products = await res.json();
-    console.log('✅ Fetched products:', products);
-    return products;
-  } catch (err) {
-    console.error('API fetch error:', err);
-    return [];
+    if (!basketBtn || !basketPopup) return;
+
+    // Open popup
+    basketBtn.addEventListener('click', () => {
+      basketPopup.style.display = 'flex'; // or use a CSS class
+      basketPopup.setAttribute('aria-hidden', 'false');
+    });
+
+    // Close popup
+    if (basketCloseBtn) {
+      basketCloseBtn.addEventListener('click', () => {
+        basketPopup.style.display = 'none';
+        basketPopup.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    // Close when clicking outside
+    basketPopup.addEventListener('click', (e) => {
+      if (e.target === basketPopup) {
+        basketPopup.style.display = 'none';
+        basketPopup.setAttribute('aria-hidden', 'true');
+      }
+    });
   }
-}
-
-fetchProducts();
+})();
