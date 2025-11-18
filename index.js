@@ -35,13 +35,33 @@
 
         const header = tempDiv.querySelector('header');
         const footer = tempDiv.querySelector('footer');
-        const basketPopup = tempDiv.querySelector('#basketPopup');
-        const filterPopup = tempDiv.querySelector('#filter-popup');
+
+        // Créer basket et filter si inexistants dans le HTML
+        let basketPopup = tempDiv.querySelector('#basketPopup');
+        if (!basketPopup) {
+          basketPopup = document.createElement('div');
+          basketPopup.id = 'basketPopup';
+          basketPopup.innerHTML = `
+            <div id="basketPopupContent"></div>
+            <div id="basketPopupFooter"></div>
+            <button class="basket-close-btn">×</button>
+          `;
+        }
+
+        let filterPopup = tempDiv.querySelector('#filter-popup');
+        if (!filterPopup) {
+          filterPopup = document.createElement('div');
+          filterPopup.id = 'filter-popup';
+          filterPopup.innerHTML = `
+            <button class="filter-close-btn">×</button>
+            <div>Filter content here</div>
+          `;
+        }
 
         if (header) headerContainer.appendChild(header);
         if (footer) footerContainer.appendChild(footer);
-        if (basketPopup) document.body.appendChild(basketPopup);
-        if (filterPopup) document.body.appendChild(filterPopup);
+        document.body.appendChild(basketPopup);
+        document.body.appendChild(filterPopup);
 
         initializeHeaderFunctionality();
       })
@@ -52,7 +72,7 @@
   function attachBasketHandlers() {
     const basketBtn = $id('basketBtn');
     const basketPopup = $id('basketPopup');
-    const basketCloseBtn = document.querySelector('.basket-close-btn');
+    const basketCloseBtn = basketPopup.querySelector('.basket-close-btn');
     const basketCount = $id('basketCount');
     const basketPopupContent = $id('basketPopupContent');
     const basketPopupFooter = $id('basketPopupFooter');
@@ -108,7 +128,7 @@
 
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
-          <img src="${it.image}" alt="${escapeHtml(it.name)}" />
+          <img src="${it.image}" alt="${escapeHtml(it.name)}" style="width:60px;"/>
           <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
@@ -141,7 +161,7 @@
   /* ------------------ Filter ------------------ */
   function attachFilterHandlers() {
     const filterPopup = $id('filter-popup');
-    const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
+    const filterCloseBtn = filterPopup.querySelector('.filter-close-btn');
     const searchInput = $id('search-input');
 
     function showFilter() {
