@@ -1,6 +1,9 @@
-<!-- header.html -->
+<!-- global.html -->
+<!-- This file contains the header, basket popup and footer that will be injected into pages. -->
+
+<!-- HEADER -->
 <header>
-  <nav class="nav-left">
+  <nav class="nav-left" aria-label="Main navigation">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="men.html">Men</a></li>
@@ -8,14 +11,13 @@
     </ul>
   </nav>
 
-  <div class="logo">
-    <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo" />
+  <div class="logo" aria-hidden="true">
+    <a href="index.html"><img src="picture/RainyDays_Logo.png" alt="Rainy Days logo" /></a>
   </div>
 
   <div class="regroup">
     <div class="search-filter-wrapper" style="position: relative;">
       <input id="search-input" type="text" placeholder="Search..." class="search-input" />
-
 
       <!-- FILTER POPUP (dropdown, anchored) -->
       <div id="filter-popup" class="filter-popup-overlay" aria-hidden="true">
@@ -25,27 +27,24 @@
             <button class="filter-close-btn" aria-label="Close filter">&times;</button>
           </div>
           <div class="filter-popup-content">
-              <nav class="nav">
-                
- <h2>Men</h2>
-<ul>
-  <li><a href="men.html">Men Jacket</a></li>
-  <li><a href="aquaGuard.html">aquaGuard</a></li>
-  <li><a href="drizzleBlock.html">drizzleBlock</a></li>
-  <li><a href="rainRover.html">rainRover</a></li>
-  <li><a href="stormShield.html">stormShield</a></li>
-    <li><a href="hydroFlex.html">hydroFlex</a></li>
+            <nav class="nav">
+              <h2>Men</h2>
+              <ul>
+                <li><a href="men.html">Men Jacket</a></li>
+                <li><a href="aquaGuard.html">aquaGuard</a></li>
+                <li><a href="drizzleBlock.html">drizzleBlock</a></li>
+                <li><a href="rainRover.html">rainRover</a></li>
+                <li><a href="stormShield.html">stormShield</a></li>
+                <li><a href="hydroFlex.html">hydroFlex</a></li>
+              </ul>
 
-</ul>
-
-<h2>Women</h2>
-<ul>
-  <li><a href="women.html">Women Jacket</a></li>
-  <li><a href="cloudTrail.html">cloudTrail</a></li>
-  <li><a href="scott.html">scott</a></li>
-</ul>
-
-  </nav>
+              <h2>Women</h2>
+              <ul>
+                <li><a href="women.html">Women Jacket</a></li>
+                <li><a href="cloudTrail.html">cloudTrail</a></li>
+                <li><a href="scott.html">scott</a></li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -56,99 +55,97 @@
     <nav class="nav-right">
       <ul>
         <li><a href="aboutus.html">About us</a></li>
+
+        <!-- Basket button (must have id="basketBtn" and basketCount id) -->
         <li>
           <button class="basket-btn" id="basketBtn" aria-label="Open basket" title="Basket">
-            <!-- SVG icon -->
+            <!-- simple icon / emoji fallback -->
             <svg class="basket-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 9 18h8v-2H9.42l.75-1.36L20 6H8.42L7 4zm0 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" fill="currentColor"/>
             </svg>
             <span class="basket-count" id="basketCount" aria-hidden="true">0</span>
           </button>
         </li>
+
       </ul>
     </nav>
   </div>
 </header>
 
-<!-- BASKET POPUP (right side panel) -->
+<!-- BASKET POPUP (right/center panel) -->
 <div id="basketPopup" class="basket-popup-overlay" aria-hidden="true">
   <div class="basket-popup">
     <div class="basket-popup-header">
       <h3>My basket</h3>
       <button class="basket-close-btn" aria-label="Close basket">&times;</button>
     </div>
+
     <div class="basket-popup-content" id="basketPopupContent">
       <p class="empty-basket-message">Your basket is empty.</p>
     </div>
+
     <div class="basket-popup-footer" id="basketPopupFooter"></div>
   </div>
 </div>
 
-
-<footer>  
+<!-- FOOTER -->
+<footer>
   <section class="bottom">
     <div class="shop">
       <h3>Shop</h3>
-      <p>Men</p>
-       <p>Women</p>
-      </div>
+      <p><a href="men.html">Men</a></p>
+      <p><a href="women.html">Women</a></p>
+    </div>
 
-       <div class="support">
+    <div class="support">
       <h3>Support</h3>
-      <p>FAOS</p> 
-       <p>Delivery</p>
-       <p>Warranty</p>
-       <p>Contact us</p> 
-      </div>
+      <p>FAQ</p>
+      <p>Delivery</p>
+      <p>Warranty</p>
+      <p>Contact us</p>
+    </div>
 
-  <div class="about-us">
+    <div class="about-us">
       <h3>About us</h3>
       <p>Stories</p>
-       <p>Blogs</p>
-       <p>Community</p>
-       
-      </div>
+      <p>Blogs</p>
+      <p>Community</p>
+    </div>
   </section>
 
-<section class="social-media">
-  <div class="title-media">
-    <h3>Follow us on Social Media</h3>
-  </div>
+  <section class="social-media">
+    <div class="title-media"><h3>Follow us on Social Media</h3></div>
+    <div class="logo-media">
+      <img src="picture/facebook.png" alt="facebook" class="media" />
+      <img src="picture/youtube.png" alt="youtube" class="media" />
+      <img src="picture/instagram.png" alt="instagram" class="media" />
+      <img src="picture/tiktok.png" alt="tiktok" class="media" />
+    </div>
+  </section>
 
-  <div class="logo-media">
-    <img src="picture/facebook.png"alt="logo" class="media">
-        <img src="picture/youtube.png"alt="logo" class="media">
-            <img src="picture/instagram.png"alt="logo" class="media">
-                <img src="picture/tiktok.png"alt="logo" class="media">
- </div>
-</section>
-
-<section class="footer-bar">
-  <div class="footer-bar-inner">
-    <div class="footer-legal">
-      <div class="logo-bottom">
-        <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo">
+  <section class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-legal">
+        <div class="logo-bottom">
+          <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo">
+        </div>
+        <nav class="legal-links" aria-label="Legal links">
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Terms and Conditions of Sale</a></li>
+          </ul>
+        </nav>
       </div>
 
-      <nav class="legal-links" aria-label="Legal links">
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Use</a></li>
-          <li><a href="#">Terms and Conditions of Sale</a></li>
-        </ul>
-      </nav>
-    </div>
-
-    <div class="footer-right">
-      <div class="language" aria-label="Language selector">
-        <button class="lang-btn" aria-pressed="true">EN</button>
-        <img src="picture/united-kingdom.png" alt="United Kingdom flag" class="flag">
+      <div class="footer-right">
+        <div class="language" aria-label="Language selector">
+          <button class="lang-btn" aria-pressed="true">EN</button>
+          <img src="picture/united-kingdom.png" alt="United Kingdom flag" class="flag">
+        </div>
+        <p class="copyright">© <span id="year"></span> Rainy Days</p>
       </div>
-
-      <p class="copyright">© <span id="year"></span> Rainy Days</p>
     </div>
-  </div>
-</section>
+  </section>
+</footer>
 
-
-  </footer>
