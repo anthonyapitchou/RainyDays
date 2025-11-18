@@ -1,4 +1,8 @@
- const HEADER_PATH = 'global.html'; // ton fichier global
+const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
+const STORAGE_KEY = 'rainy_basket_v1'; // ✅ panier storage key
+
+
+const HEADER_PATH = 'global.html'; // ton fichier global
   const STORAGE_KEY = 'rainy_basket_v1';
 
   /* ------------------ Basket handlers (replace existing attachBasketHandlers) ------------------ */
