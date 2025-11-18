@@ -108,7 +108,7 @@
 
       basketPopupContent.innerHTML = basketItems.map((it, idx) => `
         <div class="basket-item" data-index="${idx}">
-          <img src="${it.image}" alt="${escapeHtml(it.name)}" class="basket-item-image" style="width:80px;height:auto;" />
+          <img src="${it.image}" alt="${escapeHtml(it.name)}" style="width:50px;height:auto;" />
           <div>${escapeHtml(it.name)} - ${escapeHtml(it.price)}</div>
           <button class="basket-remove-btn" data-index="${idx}">Remove</button>
         </div>
@@ -120,12 +120,13 @@
         <a href="confirmation.html" class="confirm-order-btn">Confirm my order</a>
       `;
 
-      // supprimer un item
+      // delegate remove clicks
       basketPopupContent.querySelectorAll('.basket-remove-btn').forEach(btn => {
         btn.addEventListener('click', () => removeFromBasket(Number(btn.dataset.index)));
       });
     }
 
+    // attach add-to-cart buttons
     document.querySelectorAll('.add-to-cart').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
@@ -141,9 +142,10 @@
 
   /* ------------------ Filter ------------------ */
   function attachFilterHandlers() {
-    const filterPopup = $id('filter-popup');
+    // récupérer les éléments après injection
+    const filterPopup = document.querySelector('#filter-popup');
     const filterCloseBtn = filterPopup?.querySelector('.filter-close-btn');
-    const searchInput = $id('search-input');
+    const searchInput = document.querySelector('#search-input');
 
     if (!filterPopup || !searchInput) return;
 
@@ -157,8 +159,10 @@
       filterPopup.setAttribute('aria-hidden', 'true');
     }
 
+    // ouverture au focus et clic
     searchInput.addEventListener('focus', showFilter);
     searchInput.addEventListener('click', showFilter);
+
     if (filterCloseBtn) filterCloseBtn.addEventListener('click', hideFilter);
     filterPopup.addEventListener('click', e => { if (e.target === filterPopup) hideFilter(); });
   }
