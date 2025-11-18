@@ -120,7 +120,7 @@ const apiUrl = "https://api.noroff.dev/api/v1/rainy-days";
       basketPopupFooter.innerHTML = `
         <div class="basket-footer-inner">
           <p><strong>Total:</strong> ${formatPrice(total)}</p>
-          confirmation.htmlConfirm my order</a>
+          <a href="confirmation.html" class="confirm-btn">Confirm my order</a>
         </div>
       `;
     }
