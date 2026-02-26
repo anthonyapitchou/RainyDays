@@ -293,7 +293,7 @@ button:hover {
 
 .card img{
 width: 100%;
-height: 250px;
+height: 350px;
 object-fit: contain;
 }
 
@@ -678,6 +678,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
