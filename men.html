@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Rainy Day</title>
+  <title>Rainy Day - Men's Collection</title>
+  <!-- Assure-toi que le fichier CSS est bien à côté du HTML ou ajuste le chemin -->
   <link href="men.css" rel="stylesheet" />
 </head>
 
@@ -20,158 +20,147 @@
     </nav>
 
     <div class="logo">
-      <img src="rainyDays_logo.png" alt="Rainy Days logo">
+      <!-- Chemin corrigé pour inclure le dossier picture -->
+      <img src="picture/rainyDays_logo.png" alt="Rainy Days logo">
     </div>
 
     <div class="regroup">
-
       <input type="text" placeholder="Search..." class="search-input">
-      <img src="profile.jpg" alt="profile-img" class="profile-img">
-
+      <img src="picture/profile.jpg" alt="profile-img" class="profile-img">
       <span>❤️</span>
-
       <nav class="nav-right">
-
         <ul>
           <li><a href="aboutus.html">About us</a></li>
         </ul>
       </nav>
     </div>
   </header>
+
   <main>
+    <div class="button-container">
+      <button>Price</button>
+      <button class="dropdown-btn">Select</button>
+    </div>
 
+    <!-- Le container qui affichera les 4 colonnes grâce au CSS Grid -->
+    <div class="container">
 
-
-
-
-<div class="button-container">
-<button>Price</button>
-<button class="dropdown-btn">Select</button>
-
-</div>
-
-
-<div class="container">
-
-
-<div class="card">
-<img src="picture/RainyDays_Jacket1.png" alt="RainyDays_Jacket1" class="card-image">
-<div class="card-content">
-<h3>StormShield</h3>
-<p>Double protection - Rain Jacket - Grey & Red</p>
-<p>220$</p>
-  <a href="stormShield.html" class="cta"><strong> view</strong></a>
-</div>
-</div>
-
-<div class="card">
-<img src="picture/RainyDays_Jacket2.png" alt="RainyDays_Jacket3" class="card-image">
-<div class="card-content">
-<h3>HydroFlex</h3>
-<p>Zip Rain Jacket - short collar- Regular fit Black</p>
-<p>180$</p>
-  <a href="hydroFlex.html" class="cta"><strong> view</strong></a>
-</div>
-</div>
-
-<div class="card">
-<img src="picture/RainyDays_Jacket3.png" alt="RainyDays_Jacket3" class="card-image">
-<div class="card-content">
-<h3>AquaGuard</h3>
-<p>Zip - thin Rain Jacket  Grey & Red</p>
-<p>180$</p>
-  <a href="aquaGuard.html" class="cta"><strong> view</strong></a>
-</div>
-</div>
-
-<div class="card">
-<img src="picture/RainyDays_Jacket4.png" alt="RainyDays_Jacket4" class="card-image">
-<div class="card-content">
-<h3>DrizzleBlock</h3>
-<p>Double protection - Rain Jacket - Black & White</p>
-<p>220$</p>
-  <a href="drizzleBlock.html" class="cta"><strong> view</strong></a>
-</div>
-</div>
-
-</div>
-</div>
-</main>
-
-    <footer>  
-  <section class="bottom">
-    <div class="shop">
-      <h3>Shop</h3>
-      <p>Men</p>
-       <p>Women</p>
+      <!-- Card 1 -->
+      <div class="card">
+        <img src="picture/RainyDays_Jacket1.png" alt="StormShield" class="card-image">
+        <div class="card-content">
+          <h3>StormShield</h3>
+          <p>Double protection - Rain Jacket - Grey & Red</p>
+          <p><strong>220$</strong></p>
+          <a href="stormShield.html" class="cta"><strong>View</strong></a>
+        </div>
       </div>
 
-       <div class="support">
-      <h3>Support</h3>
-      <p>FAOS</p> 
-       <p>Delivery</p>
-       <p>Warranty</p>
-       <p>Contact us</p> 
+      <!-- Card 2 -->
+      <div class="card">
+        <img src="picture/RainyDays_Jacket2.png" alt="HydroFlex" class="card-image">
+        <div class="card-content">
+          <h3>HydroFlex</h3>
+          <p>Zip Rain Jacket - short collar - Regular fit Black</p>
+          <p><strong>180$</strong></p>
+          <a href="hydroFlex.html" class="cta"><strong>View</strong></a>
+        </div>
       </div>
 
-  <div class="about-us">
-      <h3>About us</h3>
-      <p>Stories</p>
-       <p>Blogs</p>
-       <p>Community</p>
-       
+      <!-- Card 3 -->
+      <div class="card">
+        <img src="picture/RainyDays_Jacket3.png" alt="AquaGuard" class="card-image">
+        <div class="card-content">
+          <h3>AquaGuard</h3>
+          <p>Zip - thin Rain Jacket Grey & Red</p>
+          <p><strong>180$</strong></p>
+          <a href="aquaGuard.html" class="cta"><strong>View</strong></a>
+        </div>
       </div>
-  </section>
 
-<section class="social-media">
-  <div class="title-media">
-    <h3>Follow us on Social Media</h3>
-  </div>
+      <!-- Card 4 -->
+      <div class="card">
+        <img src="picture/RainyDays_Jacket4.png" alt="DrizzleBlock" class="card-image">
+        <div class="card-content">
+          <h3>DrizzleBlock</h3>
+          <p>Double protection - Rain Jacket - Black & White</p>
+          <p><strong>220$</strong></p>
+          <a href="drizzleBlock.html" class="cta"><strong>View</strong></a>
+        </div>
+      </div>
 
-  <div class="logo-media">
-    <img src="picture/facebook.png"alt="logo" class="media">
-        <img src="picture/youtube.png"alt="logo" class="media">
-            <img src="picture/instagram.png"alt="logo" class="media">
-                <img src="picture/tiktok.png"alt="logo" class="media">
- </div>
-</section>
+    </div> <!-- Fin du container -->
+  </main>
 
-<section class="footer-bar">
-  <div class="footer-bar-inner">
-    <div class="footer-legal">
-     <div class="logo-bottom">
-          <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo">
+  <footer>
+    <section class="bottom">
+      <div class="shop">
+        <h3>Shop</h3>
+        <p>Men</p>
+        <p>Women</p>
+      </div>
+
+      <div class="support">
+        <h3>Support</h3>
+        <p>FAQS</p>
+        <p>Delivery</p>
+        <p>Warranty</p>
+        <p>Contact us</p>
+      </div>
+
+      <div class="about-us">
+        <h3>About us</h3>
+        <p>Stories</p>
+        <p>Blogs</p>
+        <p>Community</p>
+      </div>
+    </section>
+
+    <section class="social-media">
+      <div class="title-media">
+        <h3>Follow us on Social Media</h3>
+      </div>
+      <div class="logo-media">
+        <img src="picture/facebook.png" alt="facebook" class="media">
+        <img src="picture/youtube.png" alt="youtube" class="media">
+        <img src="picture/instagram.png" alt="instagram" class="media">
+        <img src="picture/tiktok.png" alt="tiktok" class="media">
+      </div>
+    </section>
+
+    <section class="footer-bar">
+      <div class="footer-bar-inner">
+        <div class="footer-left">
+          <div class="logo-bottom">
+            <img src="picture/RainyDays_Logo.png" alt="Rainy Days logo">
+          </div>
+          <nav class="legal-links">
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+              <li><a href="#">Terms and Conditions</a></li>
+            </ul>
+          </nav>
         </div>
 
-      <nav class="legal-links" aria-label="Legal links">
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Use</a></li>
-          <li><a href="#">Terms and Conditions of Sale</a></li>
-        </ul>
-      </nav>
-    </div>
-
-    <div class="footer-right">
-      <div class="language" aria-label="Language selector">
-        <button class="lang-btn" aria-pressed="true">EN</button>
-        <img src="picture/united-kingdom.png" alt="United Kingdom flag" class="flag">
+        <div class="footer-right">
+          <div class="language">
+            <button class="lang-btn" aria-pressed="true">EN</button>
+            <img src="picture/united-kingdom.png" alt="UK flag" class="flag">
+          </div>
+          <p class="copyright">© <span id="year">2025</span> Rainy Days</p>
+        </div>
       </div>
-
-      <p class="copyright">© <span id="year"></span> Rainy Days</p>
-    </div>
-  </div>
-</section>
-
-
+    </section>
   </footer>
-     <script src="men.js"></script>
 
-
+  <!-- Script pour l'année dynamique -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
+
 </html>
-
-
 
 
 
