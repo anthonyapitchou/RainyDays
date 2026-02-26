@@ -68,21 +68,20 @@ color: #333;
 }
 
 a.current{
-    font-weight: bold:
+    font-weight: bold;
 }
 
-a.current : hover{
+a.current:hover{
      color: #333;
   text-decoration: none;
   cursor: default;
-}
 }
 
 
 
 .logo img  {
 width: 200px;
-height: 80px;
+ height: auto;
 display:flex;
 align-items: center;
 margin: auto;
@@ -660,6 +659,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
