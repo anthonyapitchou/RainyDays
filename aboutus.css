@@ -147,13 +147,12 @@ width: 40px;
 font-weight: bold;
 }
 
-
 .regroup{
- display:flex;
-  justify-content: flex-end;
+display:flex;
+justify-content: flex-end;
 align-items: center;
-  gap: 20px;                  
-  padding: 10px;  
+gap: 20px;                  
+padding: 10px;  
 }
 
 
@@ -211,10 +210,41 @@ align-items: center;
 }
 
 
-
+.values {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap; 
 }
 
-/* --- FOOTER PRINCIPAL (Section verte) --- */
+.mission, .vision, .customer {
+    flex: 1;
+    min-width: 280px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.mission img, .vision img, .customer img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.mission h2, .vision h2, .customer h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+
+
 .bottom {
   background-color: #657C6A;
   color: #fcfcfc;
@@ -223,7 +253,7 @@ align-items: center;
   align-items: flex-start;
   padding: 60px 20px;
   margin-top: 40px;
-  flex-wrap: wrap; /* Pour le mobile */
+  flex-wrap: wrap; 
   gap: 30px;
 }
 
@@ -253,7 +283,6 @@ align-items: center;
   opacity: 0.8;
 }
 
-/* --- RÉSEAUX SOCIAUX --- */
 .social-media {
   background-color: #fcfcfc;
   padding: 40px 20px;
@@ -283,7 +312,6 @@ align-items: center;
   transform: scale(1.2);
 }
 
-/* --- BARRE LÉGALE (Tout en bas) --- */
 .footer-bar {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding: 20px 40px;
@@ -330,7 +358,6 @@ align-items: center;
   text-decoration: underline;
 }
 
-/* --- DROITE : LANGUE & COPYRIGHT --- */
 .footer-right {
   display: flex;
   align-items: center;
@@ -364,7 +391,6 @@ align-items: center;
   color: #999;
 }
 
-/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 768px) {
   .bottom {
     flex-direction: column;
