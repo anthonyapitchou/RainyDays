@@ -60,7 +60,7 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Logo */
-.logo img {
+.logo {
   width: 200px;
   height: 80px;
   display: flex;
@@ -584,6 +584,7 @@ justify-content: flex-end;
   font-size: 13px;
   color: #666;
 }
+
 
 
 
