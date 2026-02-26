@@ -260,7 +260,7 @@ button:hover {
 
 .card{
  flex: 0 0 auto;
- max-width: 360px;
+ max-width: 340px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -660,6 +660,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
