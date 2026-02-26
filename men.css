@@ -70,7 +70,7 @@ font-weight: bold;
 
 
 
-.logo img {
+.logo  {
 width: 200px;
 height: 80px;
 display:flex;
@@ -679,6 +679,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
