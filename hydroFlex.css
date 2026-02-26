@@ -70,15 +70,14 @@ font-weight: bold;
 
 
 
-.logo {
+.logo img {
  width: 200px;
   height: 80px;
   display: flex;
   align-items: center;
   transition: transform 0.3s ease, filter 0.3s ease;
   cursor: pointer;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 
@@ -694,5 +693,6 @@ justify-content: flex-end;
   font-size: 13px;
   color: #666;
 }
+
 
 
