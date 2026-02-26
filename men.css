@@ -277,7 +277,7 @@ button:hover {
 
 .card{
  flex: 0 0 auto;
- max-width: 250px;
+ max-width: 360px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -679,6 +679,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
