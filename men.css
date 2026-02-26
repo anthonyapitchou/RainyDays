@@ -434,10 +434,9 @@ margin: 5px 0;
 }
 
 .footer-bar-inner {
-  max-width: 1600px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between; /* separates left and right */
+  justify-content: space-between; 
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
@@ -661,6 +660,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
