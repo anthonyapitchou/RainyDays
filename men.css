@@ -70,7 +70,7 @@ font-weight: bold;
 
 
 
-.logo  {
+.logo img  {
 width: 200px;
 height: 80px;
 display:flex;
@@ -78,8 +78,7 @@ align-items: center;
 margin: auto;
 transition: transform 0.3s ease, filter 0.3s ease;
 cursor: pointer;
-margin-bottom: 15px;
-    margin-top:15px;
+margin-bottom: 20px;
 }
 
 .nav-right ul{
@@ -679,6 +678,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
