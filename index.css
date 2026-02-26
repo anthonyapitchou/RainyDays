@@ -429,12 +429,12 @@ transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .visually-hidden {
-  position: absolute;    /* Removes element from normal page flow, so it doesn’t take up space */
-  left: -10000px;        /* Moves it far off-screen to the left (way outside the visible viewport) */
-  top: auto;             /* Keeps vertical position default */
-  width: 1px;            /* Shrinks width to minimum */
-  height: 1px;           /* Shrinks height to minimum */
-  overflow: hidden;      /* Prevents any visible overflow (in case content tries to show) */
+  position: absolute;   
+  left: -10000px;        
+  top: auto;            
+  width: 1px;           
+  height: 1px;          ]
+  overflow: hidden;      
 }
 
 .container-pictures{
@@ -529,72 +529,80 @@ color: #ffffff;
   border-color: green;
 }
 
-/*footer*/
-.bottom{
+/* --- SECTION FOOTER PRINCIPALE (Verte) --- */
+.bottom {
   background-color: #657C6A;
-  max-width: 100%;
+  width: 100%;
   min-height: 270px;
   display: flex;
   justify-content: space-around;
-  align-items: stretch;
-  padding: 20px;
+  align-items: flex-start; /* Aligne les titres en haut */
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
 
+/* --- COLONNES (Shop, Support, About) --- */
 .shop, .support, .about-us {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  gap: 10px;
+  gap: 15px;
   color: #fcfcfc;
-  text-align: center;
-   font-weight: bold;
+  font-weight: bold;
+  text-align: left; /* Plus pro pour des listes de liens */
 }
 
-.support{
-  align-self: flex-start;
-  padding-top: 40px;
+/* --- GESTION DES LIENS (Anti-Violet) --- */
+.shop p a, 
+.support p a, 
+.about-us p a {
+  color: #fcfcfc !important; /* Force le BLANC même si visité */
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.shop{
-  align-self: flex-start;
-  padding-top: 40px
+.shop p a:visited, 
+.support p a:visited, 
+.about-us p a:visited {
+  color: #fcfcfc !important; /* Empêche le passage au VIOLET */
 }
 
-
-.shop h3:hover, p:hover,
-.support h3:hover, p:hover,
-.about-us h3:hover, p:hover {
+.shop p a:hover, 
+.support p a:hover, 
+.about-us p a:hover {
+  color: #FFD93D; /* Couleur dorée au survol */
   text-decoration: underline;
 }
 
+/* --- RÉSEAUX SOCIAUX --- */
+.social-media {
+  padding: 40px 0;
+  background-color: #fcfcfc;
+}
 
-.title-media h3{
+.title-media h3 {
   text-align: center;
+  margin-bottom: 20px;
+  color: #1b1b1b;
 }
 
 .logo-media {
   display: flex;
-  flex-direction: row;
   justify-content: center; 
-  gap: 20px; 
+  gap: 25px; 
   align-items: center;
-  margin-top: 20px;
 }
 
-.logo-media img{
-  width: auto;
+.logo-media img {
   height: 24px;
+  width: auto;
   cursor: pointer;
   transition: transform 0.3s ease;
-    padding-bottom: 40px;
-
-
 }
 
 .logo-media img:hover {
   transform: scale(1.2);
 }
+
 
 /*new content*/
 .footer-bar {
@@ -706,7 +714,7 @@ justify-content: flex-end;
 .footer-bar-inner {
   margin: 0 auto;
   display: flex;
-  justify-content: space-between; /* separates left and right */
+  justify-content: space-between; 
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
@@ -945,6 +953,7 @@ justify-content: flex-end;
     margin-top: 15px;
   }
 }
+
 
 
 
