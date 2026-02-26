@@ -13,11 +13,15 @@
 
 
 body {
-margin: 0;
-  padding: 0; 
-  width: 100%;
-  overflow-x: hidden; 
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
   font-family: var(--font-primary);
+  padding: min(50px, 7%); 
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 header{
