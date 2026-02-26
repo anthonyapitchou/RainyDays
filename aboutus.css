@@ -168,7 +168,7 @@ header {
 }
 
 .cover {
-    background-image: url("./asset/nature.jpg");
+    background-image: url(".picture/nature.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
