@@ -81,7 +81,7 @@ a.current:hover{
 
 .logo img  {
 width: 200px;
- height: auto;
+ height: 80px;
 display:flex;
 align-items: center;
 margin: auto;
@@ -659,6 +659,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
