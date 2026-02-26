@@ -335,6 +335,8 @@ border-radius: 10px;
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
+    height: 100%;
+    margin-bottom:30px;
 }
 
 .grid:hover {
@@ -945,6 +947,7 @@ justify-content: flex-end;
     margin-top: 15px;
   }
 }
+
 
 
 
