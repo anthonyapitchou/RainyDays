@@ -305,19 +305,18 @@ object-fit: contain;
 
 .card-content a.cta {
   display: inline-block;
- color: #1b1b1b;
- text-align: center;
- font-size: 0.9em;
-  padding: 10px 30px;
+  color: #1b1b1b;
+  text-align: center;
+  font-size: 1em;
+  padding: 10px 40px;
   border-radius: 15px;
-  overflow: hidden;          
+  overflow: hidden;
   text-decoration: none;
   width: 50px;
-  height: 20px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-   margin: 5px;
-cursor: pointer;
-transition: background-color 0.2s ease, transform 0.2s ease;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .card-content a.cta:hover{
@@ -679,6 +678,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
