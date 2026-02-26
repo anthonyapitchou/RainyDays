@@ -192,7 +192,7 @@ position: relative;
     box-sizing: border-box;
     padding: 48px 32px;
     margin: 32px auto;
-  background-radius: 15px;
+  border-radius: 15px;
 }
 
 .cover h1 {
