@@ -68,6 +68,17 @@ font-weight: bold;
 
 }
 
+a.current{
+    font-weight: bold:
+}
+
+a.current : hover{
+     color: #333;
+  text-decoration: none;
+  cursor: default;
+}
+}
+
 
 
 .logo img  {
@@ -173,32 +184,6 @@ align-items: center;
 }
 
 
-
-.breadcrumb {
-  font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin: 20px 0;
-  color: #555;
-}
-
-.breadcrumb a {
-  color: #555;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.breadcrumb a:hover {
-  color: #000;
-  text-decoration: underline;
-}
-
-.breadcrumb .current {
-  font-weight: bold;
-  color: #000;
-  cursor: default;
-}
 
 .breadcrumb a[href="women.html"]:hover {
   color: #555; 
@@ -678,6 +663,7 @@ margin: 5px 0;
     width: 30px !important;
   }
 }
+
 
 
 
