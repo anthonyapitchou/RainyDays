@@ -183,8 +183,8 @@ padding: 10px;
 
 .overlay-content {    
 position: relative;
-    width: 520px;
-    height: 450px;
+    width: 400px;
+    height: 150px;
     background-color: rgba(0, 0, 0, 0.5);
     background-image: none;
     z-index: 6;
@@ -192,6 +192,7 @@ position: relative;
     box-sizing: border-box;
     padding: 48px 32px;
     margin: 32px auto;
+  background-radius: 15px;
 }
 
 .cover h1 {
