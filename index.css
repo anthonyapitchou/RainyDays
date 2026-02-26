@@ -274,15 +274,6 @@ border-radius: 10px;
 
 
 
-@media screen and (max-width: 770px) {
-  .cta-container{
-   
-    flex-direction : column;
-   gap: 5px;
-  
-
-  }
-}
 
 .collection{
   
@@ -354,6 +345,13 @@ border-radius: 10px;
 .grid img {
   width: 100%;
   object-fit: contain;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+
 }
 
 .card-content p {
@@ -946,6 +944,7 @@ justify-content: flex-end;
     margin-top: 15px;
   }
 }
+
 
 
 
