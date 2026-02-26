@@ -1,0 +1,339 @@
+.cover {
+    background-image: url("./asset/nature.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    height: 190px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.cover h1 {
+    font-weight: 400;
+    letter-spacing: .11em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 18px;
+
+    color: #555;
+}
+
+
+/*New container for the value page */
+.values {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    /* center container */
+    margin-bottom: 30px;
+}
+
+
+.mission,
+.vision,
+.customer {
+    width: 300px;
+    /* flexible width */
+    height: 350px;
+    margin: 0;
+    /* removed unnecessary margins */
+    text-align: left;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mission img,
+.vision img,
+.customer img {
+    width: 100%;
+    /* fit container width */
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    object-fit: cover;
+
+}
+
+.mission h2,
+.vision h2,
+.customer h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.mission p,
+.vision p,
+.customer p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+}
+
+/* footer */
+.footer {
+    background-color: #4d908e;
+    /* teal-like background */
+    color: white;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    margin-top: 10px
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-column {
+    flex: 1 1 220px;
+    margin: 10px;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer-column p,
+.footer-column li {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 5px;
+}
+
+.footer-column a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: #FFD93D;
+    /* highlight yellow */
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-column input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+
+.footer-column button {
+    background: #0077b5;
+    /* blue like your screenshot */
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.footer-column button:hover {
+    background: #005b96;
+}
+
+
+.footer-logo {
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+/* Extra small mobile (max-width: 480px) */
+/* =======================
+   Media Queries (max-width: 768px)
+======================= */
+@media (max-width: 768px) {
+
+    /* Header adjustments */
+    header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        height: 70px;
+    }
+
+    .logo img {
+        height: 50px;
+        margin-left: 10px;
+    }
+
+    .nav-link {
+        gap: 15px;
+        padding-right: 10px;
+    }
+
+    .nav-link ul {
+        gap: 10px;
+    }
+
+    .nav-link a {
+        font-size: 16px;
+    }
+
+    a.current {
+        font-size: 1rem;
+    }
+
+    .become-member {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    /* Cover section */
+    .cover {
+        height: 150px;
+        padding: 10px;
+        background-position: center center;
+    }
+
+    .cover h1 {
+        font-size: 24px;
+        letter-spacing: .08em;
+    }
+
+    /* About section */
+    .about {
+        padding: 30px 10px;
+    }
+
+    .about h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .about p {
+        font-size: 16px;
+    }
+
+    /* Values container */
+    .values {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 10px;
+        max-width: 95%;
+    }
+
+    .mission,
+    .vision,
+    .customer {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .mission img,
+    .vision img,
+    .customer img {
+        height: 180px;
+        margin-bottom: 10px;
+    }
+
+    .mission h2,
+    .vision h2,
+    .customer h2 {
+        font-size: 18px;
+    }
+
+    .mission p,
+    .vision p,
+    .customer p {
+        font-size: 14px;
+    }
+
+    /* Footer → row but smaller spacing, responsive */
+    .footer-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .footer-column {
+        flex: 1 1 45%;
+        /* two columns per row on mobile */
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .footer-bottom {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        margin: 10px 0 0 0;
+        align-items: center;
+    }
+
+    /* Optional: adjust smaller texts in footer */
+    .footer-column h3 {
+        font-size: 16px;
+    }
+
+    .footer-column p,
+    .footer-column li {
+        font-size: 13px;
+    }
+}
