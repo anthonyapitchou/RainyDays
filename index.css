@@ -705,7 +705,6 @@ justify-content: flex-end;
 }
 
 .footer-bar-inner {
-  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between; /* separates left and right */
@@ -947,6 +946,7 @@ justify-content: flex-end;
     margin-top: 15px;
   }
 }
+
 
 
 
